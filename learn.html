@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Learn Al-Quran | ImamBuddy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+  /* ==== Base (replaced & extended theme) ==== */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{ font-family:'Poppins',sans-serif; background:#f4f8f6; color:#1d2b28; overflow-x:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+  a{color:inherit}
+  button{font:inherit}
+
+  /* floating shapes */
+  .bg-shapes{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .shape{position:absolute;width:90px;height:90px;background:rgba(77,169,140,0.12);border-radius:50%;filter:blur(4px);animation:float 12s ease-in-out infinite}
+  .shape:nth-child(1){top:12%;left:8%}
+  .shape:nth-child(2){top:60%;left:72%;animation-delay:3s}
+  .shape:nth-child(3){top:80%;left:32%;animation-delay:6s}
+  @keyframes float{50%{transform:translateY(-30px)}}
+
+  /* header */
+  header{ position:fixed; top:0; width:100%; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px); border-bottom:1px solid rgba(0,0,0,0.05); z-index:1000; }
+  .toggle-btn{ font-size:1.6rem; color:#4da98c; cursor:pointer; background:none; border:none; padding:6px; display:flex; align-items:center; gap:8px }
+  .logo{ display:flex; align-items:center; gap:10px }
+  .logo img{ width:44px; height:44px; border-radius:50% }
+  .header-actions{ display:flex; gap:12px; align-items:center }
+
+  /* sidebar (re-styled) */
+  .sidebar{ position:fixed; top:0; left:0; width:240px; height:100%; background:linear-gradient(180deg,#fff,#e7f3ef); padding-top:82px; transform:translateX(-110%); transition:.4s; box-shadow:4px 0 20px rgba(0,0,0,0.08); z-index:999; overflow:auto }
+  .sidebar.active{ transform:translateX(0) }
+  .sidebar ul{ list-style:none; padding:6px 0 60px 0 }
+  .sidebar li{ padding:8px 16px }
+  .sidebar a{ color:#30423d; font-weight:600; text-decoration:none; display:flex; gap:8px; align-items:center; padding:10px; border-radius:10px }
+  .sidebar a:hover, .sidebar a.active{ color:#fff; background:#4da98c }
+  .sidebar .section-title{ font-weight:700; color:#2b4f44; padding:14px 16px; font-size:.95rem }
+
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.4); opacity:0; visibility:hidden; transition:.3s; z-index:998 }
+  .overlay.active{ opacity:1; visibility:visible }
+
+  /* main layout */
+  .page{ max-width:1100px; margin:92px auto 48px; padding:0 16px }
+  .hero{ background:linear-gradient(135deg,#d7ebe5,#a7d4c8); padding:44px 18px; border-radius:20px; text-align:center; }
+  .hero h1{ font-family:'Amiri',serif; color:#3f866f; font-size:2.2rem; margin-bottom:8px; }
+  .hero p{ margin-top:10px; color:#355a52 }
+
+  .controls-row{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin:18px 0 12px; flex-wrap:wrap; }
+  .left-controls{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+  .search{ display:flex; align-items:center; gap:8px; background:#fff; border-radius:12px; padding:8px 10px; border:1px solid #e6f0ec }
+  .search input{ border:none; outline:none; background:transparent; width:220px; font-size:0.95rem; color:#27433a }
+  .select{ padding:8px 10px; border-radius:10px; border:1px solid #d6efe3; background:#fff; font-weight:600; color:#26503f }
+
+  .back-btn{ display:inline-block;margin:0;padding:10px 16px;background:#eaf7f1;border-radius:12px;border:1px solid #d6efe3;color:#26503f;text-decoration:none;font-weight:700 }
+
+  /* grid / cards (replacing previous styles) */
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; margin-top:16px; }
+  .card { background:#fff; border-radius:14px; padding:16px; border:1px solid #eef7f1; box-shadow:0 10px 24px rgba(0,0,0,0.04); display:flex; flex-direction:column; gap:12px; }
+  .card h3 { font-family:'Amiri',serif; color:#2e5a47; margin:0; font-size:1.05rem }
+  .card p { color:#27433a; margin:0; font-size:.95rem }
+  .card .meta { color:#4a6a58; font-size:.85rem }
+
+  .audio-wrap { background: linear-gradient(180deg,#ffffff,#f7fefa); padding:12px; border-radius:10px; border:1px solid #e3f3e7; display:flex; flex-direction:column; gap:10px }
+  .audio-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+  .btn { padding:10px 12px; border-radius:10px; border:none; cursor:pointer; font-weight:700 }
+  .btn.primary{ background:#4da98c; color:#fff }
+  .btn.ghost{ background:transparent; border:1px solid #dbeee6; color:#2b4f44 }
+  .small-btn{ padding:8px 10px; border-radius:8px; border:none; background:#4da98c; color:#fff; font-weight:700; cursor:pointer }
+
+  audio{ width:100%; border-radius:8px; outline:none }
+
+  .status { font-size:.85rem; color:#466a5a; min-width:130px }
+
+  /* verse area */
+  .verse-area { background:linear-gradient(180deg,#fff,#f9fff9); padding:12px; border-radius:10px; border:1px solid #e6f7ee; }
+  .arabic { font-family:'Amiri',serif; direction:rtl; text-align:right; background:#f6fff9; padding:10px; border-radius:8px; color:#234b3f; font-size:1.25rem }
+  .translation { color:#27433a; margin-top:8px; line-height:1.6 }
+  .tafsir { background:#f7fff8; padding:10px; border-radius:8px; border:1px solid #e0f4e5; color:#234b3a; margin-top:8px; display:none; }
+
+  .card-actions{ display:flex; gap:8px; margin-top:6px; flex-wrap:wrap }
+  .pill { padding:8px 10px; border-radius:10px; background:#eaf7f1; border:1px solid #d6efe3; color:#26503f; font-weight:700 }
+
+  /* modal */
+  .modal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); visibility:hidden; opacity:0; transition:all .18s; z-index:2000 }
+  .modal.active{ visibility:visible; opacity:1 }
+  .modal-card{ background:#fff; border-radius:14px; padding:20px; width:min(940px,96%); max-height:86vh; overflow:auto; box-shadow:0 28px 60px rgba(0,0,0,0.28) }
+  .modal-close{ position:absolute; right:18px; top:12px; font-size:22px; cursor:pointer; color:#2e4f3f }
+
+  /* lessons area (kept original content) */
+  .lessons { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:18px; margin-top:18px; }
+  .lesson-card{ background:#fff; border-radius:14px; padding:18px; border:1px solid #e8f2ed; box-shadow:0 8px 20px rgba(30,60,40,0.04) }
+  .lesson-card h3 { font-family:'Amiri',serif; color:#2e5a47; margin-bottom:8px; font-size:1.05rem }
+
+  footer{ text-align:center;padding:18px;background:#d8ebe6;margin-top:26px;border-radius:10px;color:#1f5c45;font-weight:600 }
+
+  /* responsive */
+  @media(max-width:900px){
+    .page{ margin:86px 12px }
+    .search input{ width:120px }
+    header{ padding:0 12px }
+  }
+  @media(max-width:480px){
+    .hero{ padding:28px 12px }
+    header{ height:56px }
+    .search input{ width:90px }
+  }
+  </style>
+</head>
+<body>
+  <!-- floating shapes -->
+  <div class="bg-shapes" aria-hidden="true">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <!-- header -->
+  <header>
+    <div class="logo">
+      <button class="toggle-btn" id="toggleBtn" title="Open menu">☰</button>
+      <img src="images/Logo_imambuddy.jpeg" alt="ImamBuddy logo" />
+      <div style="line-height:1">
+        <div style="font-weight:800; color:#2b4f44">ImamBuddy</div>
+        <div style="font-size:12px; color:#4a6a58">Learn Al-Quran</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div style="font-size:0.9rem; color:#2b4f44">© 2025 ImamBuddy</div>
+    </div>
+  </header>
+
+  <!-- sidebar -->
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="section-title">Menu</div>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="about.html">📜 About</a></li>
+      <li><a href="tauhid.html">🕌 Tauhid</a></li>
+      <li><a href="asas.html">📘 Asas Aqidah</a></li>
+      <li><a href="learn.html" class="active">📖 Learning Al Quran</a></li>
+      <li><a href="ajaran.html">💢 Ajaran Sesat</a></li>
+      <li><a href="firaq.html">🧑‍🧒‍🧒 Firaq Al-Islamiyyah</a></li>
+      <li><a href="qiblat.html">🧭 Qibla</a></li>
+      <li><a href="contact.html">✉️ Contact</a></li>
+    </ul>
+
+    <div style="padding:16px; border-top:1px dashed rgba(60,100,80,0.06); margin-top:10px">
+      <div style="font-weight:700; color:#28523f; margin-bottom:8px">Quick Links</div>
+      <a class="back-btn" href="index.html">Back to Dashboard</a>
+    </div>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- main page -->
+  <main class="page" id="app">
+    <section class="hero" aria-labelledby="heroTitle">
+      <h1 id="heroTitle">📖 Learn Al-Quran</h1>
+      <p class="lead">Interactive lessons, translations and reliable recitations. Use the reciter selector below to switch voices — if a chosen reciter source is unavailable the player will show an error and automatically fall back to Alafasy.</p>
+    </section>
+
+    <div class="controls-row" style="margin-top:18px">
+      <div class="left-controls">
+        <div class="search" role="search" aria-label="Search Surah">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="#4da98c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#4da98c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="search" placeholder="Search surah or number..." />
+        </div>
+
+        <select id="reciter" class="select" title="Choose reciter" aria-label="reciter selector">
+          <option value="alafasy">Mishary Alafasy (default)</option>
+          <option value="sudais">Abdul Rahman Al-Sudais (may fallback)</option>
+          <option value="random">Random</option>
+        </select>
+
+        <select id="translation" class="select" aria-label="translation selector">
+          <option value="english">English</option>
+          <option value="malay">Malay</option>
+          <option value="both">Both</option>
+        </select>
+
+        <button id="refreshAudio" class="btn ghost" title="Reload audio metadata">Reload Audio</button>
+      </div>
+
+      <div>
+        <a class="back-btn" href="#">Start Lesson</a>
+      </div>
+    </div>
+
+    <!-- Lessons -->
+    <section class="lessons" aria-label="lessons">
+      <article class="lesson-card">
+        <h3>Lesson 1 — Introduction to Tajweed</h3>
+        <p>Understand rules of recitation and start applying makharij and sifat.</p>
+        <div class="card-actions">
+          <button class="small-btn start-lesson" data-lesson="1">Start Lesson</button>
+          <span class="pill">Beginner</span>
+        </div>
+      </article>
+
+      <article class="lesson-card">
+        <h3>Lesson 2 — Arabic Alphabet & Sounds</h3>
+        <p>Practice articulation points and short/long vowels.</p>
+        <div class="card-actions">
+          <button class="small-btn start-lesson" data-lesson="2">Start Lesson</button>
+          <span class="pill">Practice</span>
+        </div>
+      </article>
+
+      <article class="lesson-card">
+        <h3>Lesson 3 — Short Surahs (Juz Amma)</h3>
+        <p>Learn short surahs with correct tajweed and rhythm.</p>
+        <div class="card-actions">
+          <button class="small-btn start-lesson" data-lesson="3">Start Lesson</button>
+          <span class="pill">Memorize</span>
+        </div>
+      </article>
+
+      <article class="lesson-card">
+        <h3>Lesson 4 — Daily Recitations</h3>
+        <p>Practice daily supplications and memorize short verses.</p>
+        <div class="card-actions">
+          <button class="small-btn start-lesson" data-lesson="4">Start Lesson</button>
+          <span class="pill">Daily</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Surah Grid -->
+    <section class="grid" id="surahList" aria-label="Surah audio list" style="margin-top:20px">
+      <!-- generated by JS -->
+    </section>
+
+    <footer>© 2025 ImamBuddy | Learn Al-Quran with Barakah 🌙</footer>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div style="position:relative">
+        <div class="modal-close" id="modalClose" title="Close">&times;</div>
+        <h3 id="modalTitle" style="margin-bottom:8px">—</h3>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /*****************************************************************
+   * Data & reciters (kept from your original file)
+   *****************************************************************/
+  const SURAHS = [
+    { num:1, name:"الفاتحة", en:"The Opening", ms:"Pembukaan", ayahs:"1 hingga 7",
+      sampleArabic:"بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ٣ مَـٰلِكِ يَوْمِ ٱلدِّينِ ٤ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ٥ ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ٦ صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ٧", enTrans:"In the name of Allah, the Most Gracious, the Most Merciful.", msTrans:"Dengan nama Allah, Yang Maha Pemurah, Lagi Maha Mengasihani.", tafsir:"The opening prayer; invokes Allah's mercy and lordship."
+    },
+    { num:2, name:"وَٱلضُّحَىٰ", en:"For the sake of the time of dawn,", ms:"Demi waktu dhuha,", ayahs:"1 hingga 11",
+      sampleArabic:"وَٱلضُّحَىٰ ١ وَٱلَّيْلِ إِذَا سَجَىٰ ٢ مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ ٣ وَلَلْـَٔاخِرَةُ خَيْرٌۭ لَّكَ مِنَ ٱلْأُولَىٰ ٤ وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ ٥ أَلَمْ يَجِدْكَ يَتِيمًۭا فَـَٔاوَىٰ ٦ وَوَجَدَكَ ضَآلًّۭا فَهَدَىٰ ٧ وَوَجَدَكَ عَآئِلًۭا فَأَغْنَىٰ ٨ فَأَمَّا ٱلْيَتِيمَ فَلَا تَقْهَرْ ٩ وَأَمَّا ٱلسَّآئِلَ فَلَا تَنْهَرْ ١٠ وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ ١١", enTrans:"Alif Lam Mim.", msTrans:"Alif Lam Mim.", tafsir:"Long surah with guidance on law, worship and community."
+    },
+    { num:3, name:"الزلزلة", en:"doomsday", ms:"hari kiamat", ayahs:"1 hingga 8",
+      sampleArabic:"إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا ١ وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا ٢ وَقَالَ ٱلْإِنسَـٰنُ مَا لَهَا ٣ يَوْمَئِذٍۢ تُحَدِّثُ أَخْبَارَهَا ٤ بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا ٥ يَوْمَئِذٍۢ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًۭا لِّيُرَوْا۟ أَعْمَـٰلَهُمْ ٦ فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًۭا يَرَهُۥ ٧ وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّۭا يَرَهُۥ ٨", enTrans:"Allah — there is no deity except Him.", msTrans:"Allah — tiada Tuhan selain-Nya.", tafsir:"Encourages steadfastness and trust in Allah."
+    },
+    { num:4, name:"لِّكُلِّ هُمَزَةٍۢ", en:"Hari yang menggemparkan", ms:"A surprising day,", ayahs:"i hingga ",
+      sampleArabic:"وَيْلٌۭ لِّكُلِّ هُمَزَةٍۢ لُّمَزَةٍ ١ ٱلَّذِى جَمَعَ مَالًۭا وَعَدَّدَهُۥ ٢ يَحْسَبُ أَنَّ مَالَهُۥٓ أَخْلَدَهُۥ ٣ كَلَّا ۖ لَيُنۢبَذَنَّ فِى ٱلْحُطَمَةِ ٤ وَمَآ أَدْرَىٰكَ مَا ٱلْحُطَمَةُ ٥ نَارُ ٱللَّهِ ٱلْمُوقَدَةُ ٦ ٱلَّتِى تَطَّلِعُ عَلَى ٱلْأَفْـِٔدَةِ ٧ إِنَّهَا عَلَيْهِم مُّؤْصَدَةٌۭ ٨ فِى عَمَدٍۢ مُّمَدَّدَةٍۭ ٩", enTrans:"O mankind", msTrans:"Wahai manusia", tafsir:"Deals with social laws and rights."
+    },
+    { num:5, name:"ٱلْقَارِعَةُ ١", en:"The Table Spread", ms:"Hidangan", ayahs:"1 hingga 11",
+      sampleArabic:"ٱلْقَارِعَةُ ١ مَا ٱلْقَارِعَةُ ٢ وَمَآ أَدْرَىٰكَ مَا ٱلْقَارِعَةُ ٣ يَوْمَ يَكُونُ ٱلنَّاسُ كَٱلْفَرَاشِ ٱلْمَبْثُوثِ ٤ وَتَكُونُ ٱلْجِبَالُ كَٱلْعِهْنِ ٱلْمَنفُوشِ ٥ فَأَمَّا مَن ثَقُلَتْ مَوَٰزِينُهُۥ ٦ فَهُوَ فِى عِيشَةٍۢ رَّاضِيَةٍۢ ٧ وَأَمَّا مَنْ خَفَّتْ مَوَٰزِينُهُۥ ٨ فَأُمُّهُۥ هَاوِيَةٌۭ ٩ وَمَآ أَدْرَىٰكَ مَا هِيَهْ ١٠ نَارٌ حَامِيَةٌۢ ١١", enTrans:"O you who have believed", msTrans:"Wahai orang-orang yang beriman", tafsir:"Obligations and responsibilities of believers."
+    },
+    { num:6, name:"يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ", en:"The Cattle", ms:"Haiwan Ternakan", ayahs:165,
+      sampleArabic:"قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ ١ لَآ أَعْبُدُ مَا تَعْبُدُونَ ٢ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٣ وَلَآ أَنَا۠ عَابِدٌۭ مَّا عَبَدتُّمْ ٤ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٥ لَكُمْ دِينُكُمْ وَلِىَ دِينِ ٦", enTrans:"All praise is due to Allah, Lord of the worlds.", msTrans:"Segala puji bagi Allah, Tuhan semesta alam.", tafsir:"Affirms Allah's lordship and providence."
+    },
+    { num:7, name:"ٱلْكَـٰفِرُونَ", en:"The Heights", ms:"Bukit-bukau", ayahs:206,
+      sampleArabic:"قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ ١ لَآ أَعْبُدُ مَا تَعْبُدُونَ ٢ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٣ وَلَآ أَنَا۠ عَابِدٌۭ مَّا عَبَدتُّمْ ٤ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٥ لَكُمْ دِينُكُمْ وَلِىَ دِينِ ٦", enTrans:"Follow what is revealed to you", msTrans:"Ikutilah apa yang diwahyukan kepadamu", tafsir:"Stories of past nations and consequences."
+    },
+    { num:8, name:"ٱلْفَلَقِ", en:"The Spoils of War", ms:"Rampasan Perang", ayahs:75,
+      sampleArabic:"قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ١ مِن شَرِّ مَا خَلَقَ ٢ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ٣ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ ٤ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ٥", enTrans:"O Prophet", msTrans:"Wahai Nabi", tafsir:"Rules and ethics around battle and community."
+    },
+    { num:112, name:"الإخلاص", en:"Sincerity", ms:"Ikhlas", ayahs:4,
+      sampleArabic:"قُلْ هُوَ ٱللَّهُ أَحَدٌ ١ ٱللَّهُ ٱلصَّمَدُ ٢ لَمْ يَلِدْ وَلَمْ يُولَدْ ٣ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ ٤", enTrans:"Say, He is Allah, [Who is] One.", msTrans:"Katakanlah: Dialah Allah, Yang Maha Esa.", tafsir:"Affirms the oneness of Allah."
+    },
+    { num:114, name:"الناس", en:"Mankind", ms:"Manusia", ayahs:6,
+      sampleArabic:"قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ١ مَلِكِ ٱلنَّاسِ ٢ إِلَـٰهِ ٱلنَّاسِ ٣ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٤ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ ٥ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ ٦", enTrans:"Say, 'I seek refuge in the Lord of mankind.'", msTrans:"Katakanlah: Aku berlindung kepada Tuhan manusia.", tafsir:"Seeking refuge from evil influences."}
+  ];
+
+  const RECITERS = {
+    alafasy: { label: "Mishary Alafasy", base: "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/" },
+    sudais:  { label: "Abdul Rahman Al-Sudais", base: "https://cdn.islamic.network/quran/audio-surah/128/ar.sudais/" }
+  };
+
+  /* ====== Elements ====== */
+  const surahListEl = document.getElementById('surahList');
+  const reciterSelect = document.getElementById('reciter');
+  const translationSelect = document.getElementById('translation');
+  const refreshAudioBtn = document.getElementById('refreshAudio');
+  const searchInput = document.getElementById('search');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalClose = document.getElementById('modalClose');
+
+  function getAudioSrc(surahNum) {
+    const sel = reciterSelect.value;
+    let base = RECITERS[sel] ? RECITERS[sel].base : RECITERS.alafasy.base;
+    if (sel === 'random') {
+      const keys = Object.keys(RECITERS);
+      base = RECITERS[keys[Math.floor(Math.random() * keys.length)]].base;
+    }
+    return `${base}${String(surahNum).padStart(3, '0')}.mp3`;
+  }
+
+  /* Build cards */
+  function buildSurahCards(list = SURAHS) {
+    surahListEl.innerHTML = '';
+    list.forEach(s => {
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <div>
+            <h3>${s.name} <small style="font-size:.75rem;font-weight:700;color:#2e5a47">(${s.num})</small></h3>
+            <p class="meta">${s.en} — ${s.ayahs} Verse(s)</p>
+          </div>
+          <div style="text-align:right">
+            <div class="pill">Surah ${s.num}</div>
+          </div>
+        </div>
+
+        <div class="audio-wrap" aria-live="polite">
+          <div class="audio-row">
+            <button class="btn primary audio-play" data-num="${s.num}">Play</button>
+            <div style="flex:1">
+              <audio id="audio-${s.num}" preload="metadata" controls>
+                <source src="${getAudioSrc(s.num)}" type="audio/mpeg">
+                Your browser does not support audio.
+              </audio>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div class="status" id="status-${s.num}">Loading…</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn ghost btn-show-tafsir" data-num="${s.num}">Show Tafsir</button>
+              <button class="btn ghost btn-open-details" data-num="${s.num}">Details</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="verse-area" data-num="${s.num}">
+          <div class="arabic">${s.sampleArabic}</div>
+          <div class="translation"></div>
+          <div class="tafsir">${s.tafsir}</div>
+        </div>
+      `;
+      surahListEl.appendChild(el);
+    });
+
+    attachAudioHandlers();
+    updateTranslations();
+    attachCardButtons();
+  }
+
+  /* Audio handlers with fallback */
+  function attachAudioHandlers() {
+    SURAHS.forEach(s => {
+      const audioEl = document.getElementById(`audio-${s.num}`);
+      const statusEl = document.getElementById(`status-${s.num}`);
+      if (!audioEl || !statusEl) return;
+
+      const source = audioEl.querySelector('source');
+      const newSrc = getAudioSrc(s.num);
+      if (source.src !== newSrc) {
+        source.src = newSrc;
+        audioEl.load();
+      }
+
+      audioEl.addEventListener('loadedmetadata', () => {
+        const sec = Math.floor(audioEl.duration || 0);
+        const fmt = t => `${Math.floor(t/60)}:${String(t%60).padStart(2, '0')}`;
+        statusEl.textContent = audioEl.duration && !isNaN(audioEl.duration) ? `Ready — ${fmt(sec)}` : 'Ready';
+      });
+      audioEl.addEventListener('canplay', () => { statusEl.textContent = 'Ready'; });
+      audioEl.addEventListener('loadstart', () => { statusEl.textContent = 'Loading…'; });
+      audioEl.addEventListener('error', (e) => {
+        console.warn('Audio failed to load for surah', s.num, e);
+        const fallback = RECITERS.alafasy.base + String(s.num).padStart(3, '0') + '.mp3';
+        if (!audioEl.dataset.fallbackTried) {
+          audioEl.dataset.fallbackTried = '1';
+          source.src = fallback;
+          audioEl.load();
+          statusEl.textContent = 'Trying fallback...';
+        } else {
+          statusEl.innerHTML = `<span style="color:#b44">Audio unavailable</span>`;
+        }
+      });
+
+      const playBtn = document.querySelector(`.audio-play[data-num="${s.num}"]`);
+      if (playBtn) {
+        playBtn.textContent = 'Play';
+        playBtn.onclick = () => {
+          document.querySelectorAll('audio').forEach(a => { if (a !== audioEl) a.pause(); });
+          if (audioEl.paused) {
+            audioEl.play().catch(err => {
+              console.warn('Play blocked', err);
+              alert('Playback blocked by browser — click the native play icon on the audio control.');
+            });
+          } else {
+            audioEl.pause();
+          }
+        };
+        audioEl.addEventListener('play', () => playBtn.textContent = 'Pause');
+        audioEl.addEventListener('pause', () => playBtn.textContent = 'Play');
+        audioEl.addEventListener('ended', () => playBtn.textContent = 'Play');
+      }
+    });
+  }
+
+  /* translations */
+  function updateTranslations() {
+    const mode = translationSelect.value;
+    document.querySelectorAll('.verse-area').forEach(el => {
+      const n = +el.dataset.num;
+      const s = SURAHS.find(x => x.num === n);
+      const transEl = el.querySelector('.translation');
+      const taf = el.querySelector('.tafsir');
+      if (!s || !transEl) return;
+      if (mode === 'english') transEl.textContent = s.enTrans;
+      else if (mode === 'malay') transEl.textContent = s.msTrans;
+      else transEl.innerHTML = `<div style="margin-bottom:6px">${s.enTrans}</div><div style="font-weight:600;color:#28523f">${s.msTrans}</div>`;
+      if (taf) taf.textContent = s.tafsir || '';
+      taf.style.display = 'none';
+    });
+  }
+
+  /* card buttons for tafsir & details */
+  function attachCardButtons() {
+    document.querySelectorAll('.btn-show-tafsir').forEach(btn => {
+      btn.onclick = () => {
+        const n = +btn.dataset.num;
+        const el = document.querySelector(`.verse-area[data-num="${n}"] .tafsir`);
+        if (!el) return;
+        if (el.style.display === 'block') {
+          el.style.display = 'none';
+          btn.textContent = 'Show Tafsir';
+        } else {
+          el.style.display = 'block';
+          btn.textContent = 'Hide Tafsir';
+        }
+      };
+    });
+
+    document.querySelectorAll('.btn-open-details').forEach(btn => {
+      btn.onclick = () => {
+        const n = +btn.dataset.num;
+        openSurahModal(n);
+      };
+    });
+  }
+
+  /* modal content */
+  function openSurahModal(surahNum) {
+    const s = SURAHS.find(x => x.num === surahNum);
+    if (!s) return;
+    modalTitle.textContent = `${s.name} — ${s.en}`;
+    modalBody.innerHTML = `
+      <p style="color:#444; margin-bottom:8px"><strong>Verses:</strong> ${s.ayahs} • <strong>Meaning:</strong> ${s.en} / ${s.ms}</p>
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+        <audio id="modal-audio" preload="metadata" controls style="flex:1; border-radius:6px;">
+          <source src="${getAudioSrc(surahNum)}" type="audio/mpeg">
+          Your browser does not support audio.
+        </audio>
+        <div id="modalStatus" style="min-width:120px; color:#466a5a">Loading…</div>
+      </div>
+      <hr style="margin:12px 0; border:none; border-top:1px solid #eee">
+      <div style="display:grid; gap:10px;">
+        <div><strong>Sample Arabic</strong><div class="arabic" style="margin-top:6px">${s.sampleArabic}</div></div>
+        <div><strong>Translation</strong><div style="margin-top:6px">${s.enTrans}<div style="font-weight:600;color:#28523f">${s.msTrans}</div></div></div>
+        <div><strong>Tafsir (short)</strong><div class="tafsir" style="margin-top:6px">${s.tafsir}</div></div>
+      </div>
+    `;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+
+    setTimeout(() => {
+      const ma = document.getElementById('modal-audio');
+      const ms = document.getElementById('modalStatus');
+      if (!ma) return;
+      ma.addEventListener('loadedmetadata', () => {
+        const sec = Math.floor(ma.duration || 0);
+        const fmt = t => `${Math.floor(t/60)}:${String(t%60).padStart(2, '0')}`;
+        ms.textContent = ma.duration && !isNaN(ma.duration) ? `Ready — ${fmt(sec)}` : 'Ready';
+      });
+      ma.addEventListener('error', () => { ms.innerHTML = `<span style="color:#b44">Audio unavailable</span>`; });
+      ma.addEventListener('canplay', () => ms.textContent = 'Ready');
+    }, 80);
+  }
+
+  /* modal close */
+  modalClose.onclick = () => {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    const ma = document.getElementById('modal-audio');
+    if (ma) ma.pause();
+  };
+  modal.addEventListener('click', (e) => { if (e.target === modal) modalClose.onclick(); });
+
+  /* lesson modals (kept original text) */
+  document.querySelectorAll('.start-lesson').forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.lesson;
+      modalTitle.textContent = `Lesson ${id}`;
+      modalBody.innerHTML = `
+        <p style="color:#444; margin-bottom:8px">This is a starter lesson for <strong>Lesson ${id}</strong>. Follow these steps:</p>
+        <ol style="margin-left:18px; color:#444">
+          <li>Read the sample Arabic and listen to the recitation.</li>
+          <li>Practice repeating the verse slowly, applying tajweed rules.</li>
+          <li>Reflect on the short tafsir below.</li>
+        </ol>
+        <div style="margin-top:10px"><strong>Practice verse (example):</strong>
+          <div class="arabic" style="margin-top:6px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        </div>
+        <div style="margin-top:10px"><strong>Short tip:</strong><div class="tafsir" style="margin-top:6px">Focus on correct makhraj (articulation point) and elongation of vowels where applicable.</div></div>
+        <div style="margin-top:12px">
+          <audio id="lesson-audio" controls preload="metadata" style="width:100%; border-radius:6px;">
+            <source src="${getAudioSrc(1)}" type="audio/mpeg">
+          </audio>
+        </div>
+      `;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+    };
+  });
+
+  /* search filter */
+  searchInput.addEventListener('input', (e) => {
+    const q = (e.target.value || '').trim().toLowerCase();
+    if (!q) return buildSurahCards();
+    const filtered = SURAHS.filter(s => {
+      return String(s.num).includes(q) || s.name.toLowerCase().includes(q) || s.en.toLowerCase().includes(q) || s.ms.toLowerCase().includes(q);
+    });
+    buildSurahCards(filtered);
+  });
+
+  /* reciter change */
+  reciterSelect.addEventListener('change', () => {
+    SURAHS.forEach(s => {
+      const audio = document.getElementById(`audio-${s.num}`);
+      if (!audio) return;
+      const source = audio.querySelector('source');
+      source.src = getAudioSrc(s.num);
+      delete audio.dataset.fallbackTried;
+      audio.load();
+    });
+  });
+
+  translationSelect.addEventListener('change', updateTranslations);
+  refreshAudioBtn.addEventListener('click', () => { attachAudioHandlers(); });
+
+  /* sidebar toggle */
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const toggleBtn = document.getElementById('toggleBtn');
+
+  function openSidebar(){ sidebar.classList.add('active'); overlay.classList.add('active'); sidebar.setAttribute('aria-hidden','false'); }
+  function closeSidebar(){ sidebar.classList.remove('active'); overlay.classList.remove('active'); sidebar.setAttribute('aria-hidden','true'); }
+  toggleBtn.addEventListener('click', () => {
+    if (sidebar.classList.contains('active')) closeSidebar(); else openSidebar();
+  });
+  overlay.addEventListener('click', closeSidebar);
+
+  /* initialize */
+  buildSurahCards();
+  window.ImamBuddy = { SURAHS, getAudioSrc };
+  </script>
+</body>
+</html>

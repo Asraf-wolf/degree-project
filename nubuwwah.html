@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nabi dan Rasul</title>
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{ font-family:'Poppins',sans-serif; background:#f4f8f6; color:#1d2b28; overflow-x:hidden; }
+  /* floating shapes */
+  .bg-shapes{position:fixed;inset:0;z-index:-1}
+  .shape{position:absolute;width:90px;height:90px;background:rgba(77,169,140,0.12);border-radius:50%;filter:blur(4px);animation:float 12s ease-in-out infinite}
+  .shape:nth-child(1){top:12%;left:8%}
+  .shape:nth-child(2){top:60%;left:72%;animation-delay:3s}
+  .shape:nth-child(3){top:80%;left:32%;animation-delay:6s}
+  @keyframes float{50%{transform:translateY(-30px)}}
+
+  /* header */
+  header{ position:fixed; top:0; width:100%; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px); border-bottom:1px solid rgba(0,0,0,0.05); z-index:1000; }
+  .toggle-btn{ font-size:1.8rem; color:#4da98c; cursor:pointer }
+  .logo img{ width:44px; height:44px; border-radius:50% }
+
+  /* sidebar */
+  .sidebar{ position:fixed; top:0; left:0; width:240px; height:100%; background:linear-gradient(180deg,#fff,#e7f3ef); padding-top:82px; transform:translateX(-110%); transition:.4s; box-shadow:4px 0 20px rgba(0,0,0,0.08); z-index:999 }
+  .sidebar.active{ transform:translateX(0) }
+  .sidebar ul{ list-style:none }
+  .sidebar li{ padding:14px 20px }
+  .sidebar a{ color:#30423d; font-weight:600; text-decoration:none; display:flex; gap:8px }
+  .sidebar a:hover{ color:#4da98c }
+
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.4); opacity:0; visibility:hidden; transition:.3s; z-index:998 }
+  .overlay.active{ opacity:1; visibility:visible }
+
+  /* content area */
+  .page{ max-width:940px; margin:92px auto 48px; padding:0 16px }
+  .hero{ background:linear-gradient(135deg,#d7ebe5,#a7d4c8); padding:64px 18px; border-radius:20px; text-align:center; }
+  .hero h1{ font-family:'Amiri',serif; color:#3f866f; font-size:2.4rem }
+  .hero p{ margin-top:10px; color:#355a52 }
+
+  .back-btn{ display:inline-block;margin:18px 0;padding:10px 16px;background:#eaf7f1;border-radius:12px;border:1px solid #d6efe3;color:#26503f;text-decoration:none;font-weight:700 }
+
+  .accordion{ background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,0.06); border-left:6px solid #4da98c }
+  .accordion-header{ display:flex;justify-content:space-between;align-items:center;padding:16px; cursor:pointer; background:#f0fbf7 }
+  .accordion-header h2{ font-family:'Amiri',serif;color:#3b7c66;font-size:1.05rem;margin:0 }
+  .accordion-header span{ color:#3b7c66; font-size:20px }
+  .accordion-content{ max-height:0; overflow:hidden; transition:max-height .45s ease, padding .3s; padding:0 16px }
+  .accordion.active .accordion-content{ max-height:3000px; padding:16px }
+
+  p,li{ color:#27433a; line-height:1.7; font-size:0.97rem; margin-bottom:10px }
+  .arabic{ font-family:'Amiri',serif; direction:rtl; text-align:right; background:#f6fff9;padding:10px;border-radius:8px;color:#234b3f }
+  .hadith-ref{ font-size:13px; color:#6b8376 }
+
+  footer{ text-align:center;padding:18px;background:#d8ebe6;margin-top:26px;border-radius:10px;color:#1f5c45;font-weight:600 }
+
+  @media(max-width:800px){
+    .sidebar{ width:220px }
+    .page{ margin:86px 12px }
+    .hero h1{ font-size:1.6rem }
+  }
+  @media(max-width:480px){
+    .hero{ padding:42px 12px }
+    header{ height:56px }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="toggle-btn" id="toggle">☰</div>
+  <div class="logo"><img src="images/Logo_imambuddy.jpeg" alt="ImamBuddy"></div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="about.html">📜 About</a></li>
+    <li><a href="tauhid.html">🕌 Tauhid</a></li>
+    <li><a href="asas.html">📘 Aqidah</a></li>
+    <li><a href="learn.html">📖 Al-Quran</a></li>
+    <li><a href="contact.html">✉️ Contact</a></li>
+  </ul>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+<div class="bg-shapes">
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+
+<main class="page">
+  <section class="hero">
+    <h1>Konsep Nabi dan Rasul</h1>
+    <p></p>
+  </section>
+
+  <a href="asas.html" class="back-btn">← Kembali</a>
+
+<div class="container">
+
+  <!-- ACCORDION 1: Konsep Al-Nubuwwah -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Konsep Al-Nubuwwah</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <h3>Bukti Pengutusan</h3>
+      <p>Nabi dan Rasul adalah manusia terpilih yang diutus oleh Allah SWT dengan amanah wahyu untuk menyampaikan risalah kepada manusia.</p>
+      
+      <h3>Ciri-ciri Utama:</h3>
+      <ul>
+        <li><strong>Manusia Terpilih:</strong> Dipilih oleh Allah dari kalangan manusia biasa</li>
+        <li><strong>Amanah dengan Wahyu:</strong> Menerima wahyu dari Allah SWT</li>
+        <li><strong>Menyampaikan Risalah:</strong> Bertugas menyampaikan ajaran Allah</li>
+        <li><strong>Contoh Teladan:</strong> Memberi contoh dalam akhlak dan ibadah</li>
+      </ul>
+      
+      <p class="arabic">"في واحد أفضل من جميع"</p>
+      <p><strong>Terjemahan:</strong> "Seorang Nabi itu lebih terbaik daripada keseluruhan para wali."</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 2: Sifat Nabi dan Rasul -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Sifat Nabi dan Rasul</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Para nabi dan rasul adalah manusia pilihan Allah yang dipilih untuk menyampaikan wahyu dan menimpin umat manusia. Ulama telah menyepakati beberapa sifat penting yang perlu ada serta wajib dimiliki oleh setiap nabi dan rasul:</p>
+      
+      <h3>Sifat Wajib:</h3>
+      <ul>
+        <li><strong>Siddiq:</strong> Benar dalam perkataan dan perbuatan</li>
+        <li><strong>Amanah:</strong> Dapat dipercayai</li>
+        <li><strong>Fatanah:</strong> Bijaksana</li>
+        <li><strong>Tabligh:</strong> Menyampaikan wahyu</li>
+      </ul>
+      
+      <h3>Sifat Maksum:</h3>
+      <ul>
+        <li><strong>Bebas dari Dosa Besar:</strong> Terpelihara dari perbuatan dosa besar</li>
+        <li><strong>Bebas dari Syirik:</strong> Tidak pernah menyekutukan Allah</li>
+        <li><strong>Wahyu Maksum:</strong> Penyampaian wahyu terpelihara dari kesalahan</li>
+        <li><strong>Kesilapan diampunkan:</strong> Kesilapan kecil segera ditegur dan diampuni</li>
+      </ul>
+      
+      <h3>Manusiawi:</h3>
+      <p>Para Nabi dan Rasul adalah manusia biasa yang diberi wahyu oleh Allah. Mereka makan, minum, berkahwin, dan mengalami pelbagai keperluan manusiawi lainnya.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 3: Nama 25 Nabi dan Rasul -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Nama 25 Nabi dan Rasul</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Berikut adalah nama 25 nabi dan rasul yang disepakati oleh jumhur ulama beserta dalilnya di dalam al-Quran:</p>
+      
+      <ol>
+        <li><strong>Nabi Adam AS:</strong> Surah al-Baqarah: 2:31, Surah al-A'raf: 7:19 dan Surah Taha: 20:115</li>
+        <li><strong>Nabi Idris AS:</strong> Surah Maryam: 19:56 dan Surah al-Anbiya: 21:85</li>
+        <li><strong>Nabi Nuh AS:</strong> Surah al-Ankabut: 29:14, Surah Hud: 11:25 dan Surah al-Qamar: 54:9</li>
+        <li><strong>Nabi Hud AS:</strong> Surah Hud: 11:50, Surah al-A'raf: 7:65 dan Surah al-Haqqah: 69:48</li>
+        <li><strong>Nabi Saleh AS:</strong> Surah Hud: 11:61, Surah Al-A'raf: 7:73 dan Surah al-Shu'ara: 26:141</li>
+        <li><strong>Nabi Ibrahim AS:</strong> Surah al-Baqarah: 2:124, Surah Ibrahim: 14:35 dan Surah al-An'am: 67:4</li>
+        <li><strong>Nabi Lut AS:</strong> Surah Hud: 11:70-74, Surah al-A'raf: 7:80 dan Surah al-Shu'ara: 26:160</li>
+        <li><strong>Nabi Ismail AS:</strong> Surah Maryam: 19:54, Surah al-Saffat: 37:102 dan Surah Sad: 38:48</li>
+        <li><strong>Nabi Ishak AS:</strong> Surah Hud: 11:71, Surah al-Ankabut: 29:27, Surah al-Saffat: 37:112</li>
+        <li><strong>Nabi Yaqub AS:</strong> Surah Yusuf: 12:6, Surah al-Ankabut: 29:27 dan Surah Sad: 38:45</li>
+        <li><strong>Nabi Yusuf AS:</strong> Surah Yusuf: 12:4 dan Surah Ghafir: 40:34</li>
+        <li><strong>Nabi Syu'aib AS:</strong> Surah Hud: 11:84, Surah al-A'raf: 7:85 dan Surah al-Shu'ara: 26:176</li>
+        <li><strong>Nabi Ayyub AS:</strong> Surah Sad: 38:41 dan Surah al-Anbiya: 21:83</li>
+        <li><strong>Nabi Zulkifli AS:</strong> Surah al-Anbiya: 21:85 dan Surah Sad: 38:48</li>
+        <li><strong>Nabi Musa AS:</strong> Surah al-Baqarah: 2:51, Surah Taha: 20:9-98 dan Surah al-Qasas: 28:3-46</li>
+        <li><strong>Nabi Harun AS:</strong> Surah Maryam: 19:53, Surah Taha: 20:25-36 dan Surah al-A'raf: 7:142</li>
+        <li><strong>Nabi Daud AS:</strong> Surah Sad: 38:17, Surah al-Nisa': 4:163 dan Surah Saba': 34:10</li>
+        <li><strong>Nabi Sulaiman AS:</strong> Surah Sad: 38:30, Surah al-Naml: 27:15-44 dan Surah Saba': 34:12-14</li>
+        <li><strong>Nabi Ilyas AS:</strong> Surah al-Saffat: 37:123 dan Surah al-An'am: 6:85</li>
+        <li><strong>Nabi Ilyasa' AS:</strong> Surah al-An'am: 6:86 dan Surah Sad: 38:48</li>
+        <li><strong>Nabi Yunus AS:</strong> Surah al-Anbiya: 21:87 dan Surah al-Saffat: 37:139-148</li>
+        <li><strong>Nabi Zakaria AS:</strong> Surah Maryam: 19:2-11 dan Surah al-Anbiya: 21:89</li>
+        <li><strong>Nabi Yahya AS:</strong> Surah Maryam: 19:12-15 dan Surah al-Anbiya: 21:90</li>
+        <li><strong>Nabi Isa AS:</strong> Surah Maryam: 19:30-34, Surah Ali Imran: 3:45-59 dan Surah al-Maidah: 5:110</li>
+        <li><strong>Nabi Muhammad SAW:</strong> Surah Ali Imran: 3:144, Surah al-Ahzab: 33:40 dan Surah al-Fath: 48:29</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ACCORDION 4: Tingkatan Nabi dan Rasul -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Tingkatan Nabi dan Rasul</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Para nabi dan rasul dikategorikan dalam beberapa tingkatan berdasarkan keutamaan dan peranan mereka dalam sejarah kenabian.</p>
+      
+      <h3>1. Ulul 'Azmi</h3>
+      <p>Nabi yang memiliki keteguhan hati dan kesabaran luar biasa. Mereka adalah lima nabi utama yang menghadapi ujian dan tugas berat dalam menyampaikan wahyu.</p>
+      <p><strong>Ulul 'Azmi terdiri daripada:</strong> Nabi Nuh AS, Nabi Ibrahim AS, Nabi Musa AS, Nabi Isa AS, Nabi Muhammad SAW.</p>
+      
+      <p class="arabic">"وَإِذْ أَخَذْنَا مِنَ النَّبِيِّينَ مِيثَاقَهُمْ وَمِنْكَ وَمِنْ نُوحٍ وَإِبْرَاهِيمَ وَمُوسَى وَعِيسَى ابْنِ مَرْيَمَ وَأَخَذْنَا مِنْهُمْ مِيثَاقًا غَلِيظًا"</p>
+      <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Kami mengambil perjanjian dari para nabi dan dari kamu (sendiri iaitu Nabi Muhammad SAW), dari Nuh, Ibrahim, Musa dan Isa putra Maryam dan Kami telah mengambil dari mereka perjanjian yang teguh." (Surah al-Ahzab: 33:7)</p>
+      
+      <h3>2. Nabi-Nabi Lainnya</h3>
+      <p>Selain Ulul 'Azmi, terdapat nabi-nabi lain yang juga diutus kepada kaumnya dengan tugas tertentu. Setiap nabi memiliki peranan khusus sesuai dengan zaman dan tempat mereka diutus.</p>
+      
+      <p class="arabic">"تِلْكَ الرُّسُلُ فَضَّلْنَا بَعْضَهُمْ عَلَى بَعْضٍ"</p>
+      <p><strong>Terjemahan:</strong> "Para rasul itu Kami lebihkan sebagian mereka atas sebagian yang lain." (Surah al-Baqarah: 2:253)</p>
+      
+      <h3>3. Larangan Membanding-bandingkan</h3>
+      <p>Rasulullah SAW melarang kita untuk mengutamakan satu nabi di atas nabi yang lain dengan cara yang dapat menimbulkan perselisihan atau perpecahan. Ini kerana semua nabi adalah utusan Allah dan memiliki kedudukan yang mulia.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 5: Mukjizat dan perbahasannya -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Mukjizat dan perbahasannya</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <h3>Jenis-jenis Keajaiban:</h3>
+      <ul>
+        <li><strong>Mukjizat:</strong> Keajaiban yang diberikan kepada Nabi dan Rasul sebagai bukti kenabian</li>
+        <li><strong>Irhas:</strong> Keajaiban yang berlaku sebelum seseorang menjadi nabi</li>
+        <li><strong>Karamah:</strong> Keajaiban yang diberikan kepada wali Allah</li>
+        <li><strong>Maunah:</strong> Pertolongan Allah kepada orang beriman</li>
+        <li><strong>Istidraj:</strong> Keajaiban yang diberikan kepada orang kafir sebagai penangguhan azab</li>
+        <li><strong>Ihanah:</strong> Keajaiban palsu seperti sihir</li>
+        <li><strong>Sihir:</strong> Ilmu hitam yang dilarang dalam Islam</li>
+      </ul>
+      
+      <h3>Fungsi Mukjizat:</h3>
+      <ul>
+        <li><strong>Pembuktian Kenabian:</strong> Membuktikan kebenaran kerasulan</li>
+        <li><strong>Kalahkan Ancaman:</strong> Mengatasi ancaman musuh-musuh dakwah</li>
+        <li><strong>Memuliakan Nabi/Rasul:</strong> Menunjukkan kedudukan khusus nabi</li>
+        <li><strong>Menyesatkan Musuh:</strong> Menunjukkan kelemahan musuh-musuh Allah</li>
+        <li><strong>Membongkar Kesesatan:</strong> Menghancurkan kepercayaan sesat</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ACCORDION 6: Tokoh lain yang disebut dalam Al-Quran -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Tokoh lain yang disebut dalam Al-Quran</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <h3>1. Luqman al-Hakim</h3>
+      <p>Disebut dalam Surah Luqman: 31:12-19. Beliau adalah seorang lelaki yang bijaksana dan beriman kepada Allah SWT.</p>
+      
+      <h3>2. Raja Tubba'</h3>
+      <p>Disebut dalam Surah al-Dukhan: 44:37 dan Surah Qaf: 50:14. Beliau adalah seorang raja yang beriman.</p>
+      <p class="arabic">"لا تَسُبُّوا تُبَّعًا فَإِنَّهُ قَدْ أَسْلَمَ"</p>
+      <p><strong>Hadis Rasulullah SAW:</strong> "Jangan mencela Tubba', sesungguhnya dia telah masuk Islam." (Riwayat Ahmad: 22880)</p>
+      
+      <h3>3. Bal'am bin Ba'ura</h3>
+      <p>Disebut dalam Surah al-A'raf: 7:175-176. Kisah beliau direkodkan di dalam al-Quran sebagai orang yang mendapat al-Kitab namun tersesat kerana duniawi.</p>
+      
+      <h3>4. Ashab al-Kahfi (Penghuni Gua)</h3>
+      <p>Disebut dalam Surah al-Kahfi: 18:9-26. Mereka adalah pemuda-pemuda beriman yang berlindung di dalam gua.</p>
+      
+      <h3>5. Kenabian Selepas Nabi Isa AS</h3>
+      <p class="arabic">"كَانَتْ بَنُو إِسْرَائِيلَ تَسُوسُهُمُ الْأَنْبِيَاءُ كُلَّمَا هَلَكَ نَبِيٌّ خَلَفَهُ نَبِيٌّ وَإِنَّهُ لَا نَبِيَّ بَعْدِي"</p>
+      <p><strong>Hadis Rasulullah SAW:</strong> "Sesungguhnya Bani Israil dahulu dipimpin oleh para nabi. Setiap kali seorang nabi meninggal, dia akan digantikan oleh nabi yang lain. Dan sesungguhnya tidak ada nabi selepasku." (Riwayat al-Bukhari: 3455, Ibn Majah: 2338 dan Muslim: 1862)</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; <script>document.write(new Date().getFullYear())</script> Asas Aqidah Islam.
+</footer>
+
+<script>
+  // Sidebar toggle
+  const toggle = document.getElementById('toggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  toggle.onclick = ()=>{ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+  overlay.onclick = ()=>{ sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+
+  // Accordion
+  document.querySelectorAll('.accordion').forEach(acc=>{
+    acc.querySelector('.accordion-header').addEventListener('click', ()=> acc.classList.toggle('active'));
+  });
+
+  // small hero visible transition (optional)
+  document.addEventListener('DOMContentLoaded', ()=> {
+    setTimeout(()=> document.querySelector('.hero').classList.add('visible'), 120);
+  });
+</script>
+
+</body>
+</html>

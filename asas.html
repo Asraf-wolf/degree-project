@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asas Aqidah Islam | ImamBuddy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background:#f4f8f6;
+  color:#1d2b28;
+  overflow-x:hidden;
+  transition:0.4s;
+}
+
+a { text-decoration:none; color:inherit; }
+
+/* FLOATING SHAPES */
+.bg-shapes {
+  position:fixed; top:0; left:0;
+  width:100%; height:100%; z-index:-1;
+}
+.bg-shapes .shape {
+  position:absolute;
+  width:80px; height:80px;
+  background:rgba(77,169,140,0.15);
+  border-radius:50%;
+  filter:blur(3px);
+  animation:float 12s infinite ease-in-out;
+}
+.bg-shapes .shape:nth-child(1){ top:15%; left:10%; }
+.bg-shapes .shape:nth-child(2){ top:55%; left:70%; animation-delay:3s; }
+.bg-shapes .shape:nth-child(3){ top:75%; left:30%; animation-delay:6s; }
+
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-30px); }
+}
+
+/* HEADER */
+header{
+  position:fixed; top:0; width:100%; height:60px;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(12px);
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 25px;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  z-index:1000;
+}
+.toggle-btn { font-size:1.8em; color:#4da98c; cursor:pointer; }
+.logo img { width:45px; height:45px; border-radius:50%; }
+
+/* SIDEBAR */
+.sidebar {
+  position:fixed; top:0; left:0; width:240px; height:100%;
+  background:linear-gradient(180deg,#fff,#e7f3ef);
+  padding-top:80px;
+  transform:translateX(-100%);
+  transition:0.4s;
+  box-shadow:3px 0 15px rgba(0,0,0,0.12);
+  z-index:999;
+}
+.sidebar.active { transform:translateX(0); }
+.sidebar ul { list-style:none; }
+.sidebar li { padding:18px 25px; }
+.sidebar a { font-weight:600; display:flex; gap:10px; }
+
+/* OVERLAY */
+.overlay{
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.4);
+  opacity:0; visibility:hidden; transition:0.3s;
+}
+.overlay.active { opacity:1; visibility:visible; }
+
+/* HERO */
+.hero{
+  margin-top:80px;
+  background:linear-gradient(135deg,#d7ebe5,#a7d4c8);
+  text-align:center;
+  padding:100px 20px 60px;
+  border-radius:30px;
+  max-width:900px;
+  margin:auto;
+}
+.hero h1{
+  font-family:'Amiri',serif;
+  font-size:3em;
+  color:#4da98c;
+}
+.hero p{ max-width:700px; margin:15px auto; }
+
+.btn{
+  background:#4da98c;
+  color:white; padding:14px 30px;
+  border-radius:30px;
+  display:inline-block;
+  margin-top:20px;
+  font-weight:600;
+}
+.btn:hover { background:#3f8f76; transform:scale(1.05); }
+
+/* SECTIONS */
+section{
+  padding:80px 20px;
+  text-align:center;
+}
+h2{
+  font-family:'Amiri',serif;
+  color:#4da98c;
+  margin-bottom:20px;
+}
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+  max-width:900px;
+  margin:auto;
+}
+.card{
+  background:rgba(255,255,255,0.85);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 12px 25px rgba(0,0,0,0.15);
+}
+.card h3{ color:#4da98c; }
+
+/* FOOTER */
+footer{
+  background:#d8ebe6;
+  text-align:center;
+  padding:20px;
+  font-weight:600;
+  margin-top:40px;
+}
+
+/* FADE */
+.fade { opacity:0; transform:translateY(40px); transition:1s; }
+.fade.visible{ opacity:1; transform:none; }
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="toggle-btn" id="toggle">☰</div>
+  <div class="logo"><img src="images/logo_imambuddy.jpeg"></div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="about.html">📜 About</a></li>
+    <li><a href="tauhid.html">🕌 Tauhid</a></li>
+    <li><a href="asas.html">📘 Asas Aqidah</a></li>
+    <li><a href="learn.html" class="active">📖 Learning Al Quran</a></li>
+    <li><a href="ajaran.html">💢 Ajaran Sesat</a></li>
+    <li><a href="firaq.html">🧑‍🧒‍🧒 Firaq Al-Islamiyyah</a></li>
+    <li><a href="qiblat.html">🧭 Qibla</a></li>
+    <li><a href="contact.html">✉️ Contact</a></li>
+  </ul>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="bg-shapes">
+<div class="shape"></div><div class="shape"></div><div class="shape"></div>
+</div>
+
+<section class="hero fade">
+<h1>ASAS AQIDAH ISLAM</h1>
+<p>Pilih subtopik untuk memperdalam kefahaman Aqidah anda.</p>
+</section>
+
+<section class="fade">
+<h2>Topik Utama Aqidah</h2>
+<div class="card-grid">
+
+<a class="card" href="qadar.html">
+<h3>Qadha & Qadar</h3>
+<p>Memahami ketentuan Allah dan takdir kehidupan.</p>
+</a>
+
+<a class="card" href="akhirat.html">
+<h3>Hari Akhirat</h3>
+<p>Kepercayaan terhadap pembalasan dan syurga neraka.</p>
+</a>
+
+<a class="card" href="malaikat.html">
+<h3>Malaikat, Jin & Syaitan</h3>
+<p>Pengenalan makhluk ghaib dan tugas mereka.</p>
+</a>
+
+<a class="card" href="kitab.html">
+<h3>Kitab-Kitab Allah</h3>
+<p>Kitab suci dan fungsinya kepada umat.</p>
+</a>
+
+<a class="card" href="nubuwwah.html">
+<h3>Nabi & Rasul</h3>
+<p>Para utusan Allah dan perjuangan dakwah.</p>
+</a>
+
+</div>
+</section>
+
+<footer>© 2025 ImamBuddy</footer>
+
+<script>
+const toggle=document.getElementById('toggle');
+const sidebar=document.getElementById('sidebar');
+const overlay=document.getElementById('overlay');
+toggle.onclick=()=>{ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+overlay.onclick=()=>{ sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+
+const fades=document.querySelectorAll('.fade');
+const obs=new IntersectionObserver(e=>{
+  e.forEach(el=>{ if(el.isIntersecting) el.target.classList.add('visible'); })
+});
+fades.forEach(f=>obs.observe(f));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Konsep Al-Sam'iyat: Pasca Kiamat</title>
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{ font-family:'Poppins',sans-serif; background:#f4f8f6; color:#1d2b28; overflow-x:hidden; }
+  /* floating shapes */
+  .bg-shapes{position:fixed;inset:0;z-index:-1}
+  .shape{position:absolute;width:90px;height:90px;background:rgba(77,169,140,0.12);border-radius:50%;filter:blur(4px);animation:float 12s ease-in-out infinite}
+  .shape:nth-child(1){top:12%;left:8%}
+  .shape:nth-child(2){top:60%;left:72%;animation-delay:3s}
+  .shape:nth-child(3){top:80%;left:32%;animation-delay:6s}
+  @keyframes float{50%{transform:translateY(-30px)}}
+
+  /* header */
+  header{ position:fixed; top:0; width:100%; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px); border-bottom:1px solid rgba(0,0,0,0.05); z-index:1000; }
+  .toggle-btn{ font-size:1.8rem; color:#4da98c; cursor:pointer }
+  .logo img{ width:44px; height:44px; border-radius:50% }
+
+  /* sidebar */
+  .sidebar{ position:fixed; top:0; left:0; width:240px; height:100%; background:linear-gradient(180deg,#fff,#e7f3ef); padding-top:82px; transform:translateX(-110%); transition:.4s; box-shadow:4px 0 20px rgba(0,0,0,0.08); z-index:999 }
+  .sidebar.active{ transform:translateX(0) }
+  .sidebar ul{ list-style:none }
+  .sidebar li{ padding:14px 20px }
+  .sidebar a{ color:#30423d; font-weight:600; text-decoration:none; display:flex; gap:8px }
+  .sidebar a:hover{ color:#4da98c }
+
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.4); opacity:0; visibility:hidden; transition:.3s; z-index:998 }
+  .overlay.active{ opacity:1; visibility:visible }
+
+  /* content area */
+  .page{ max-width:940px; margin:92px auto 48px; padding:0 16px }
+  .hero{ background:linear-gradient(135deg,#d7ebe5,#a7d4c8); padding:64px 18px; border-radius:20px; text-align:center; }
+  .hero h1{ font-family:'Amiri',serif; color:#3f866f; font-size:2.4rem }
+  .hero p{ margin-top:10px; color:#355a52 }
+
+  .back-btn{ display:inline-block;margin:18px 0;padding:10px 16px;background:#eaf7f1;border-radius:12px;border:1px solid #d6efe3;color:#26503f;text-decoration:none;font-weight:700 }
+
+  .accordion{ background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,0.06); border-left:6px solid #4da98c }
+  .accordion-header{ display:flex;justify-content:space-between;align-items:center;padding:16px; cursor:pointer; background:#f0fbf7 }
+  .accordion-header h2{ font-family:'Amiri',serif;color:#3b7c66;font-size:1.05rem;margin:0 }
+  .accordion-header span{ color:#3b7c66; font-size:20px }
+  .accordion-content{ max-height:0; overflow:hidden; transition:max-height .45s ease, padding .3s; padding:0 16px }
+  .accordion.active .accordion-content{ max-height:3000px; padding:16px }
+
+  p,li{ color:#27433a; line-height:1.7; font-size:0.97rem; margin-bottom:10px }
+  .arabic{ font-family:'Amiri',serif; direction:rtl; text-align:right; background:#f6fff9;padding:10px;border-radius:8px;color:#234b3f }
+  .hadith-ref{ font-size:13px; color:#6b8376 }
+
+  footer{ text-align:center;padding:18px;background:#d8ebe6;margin-top:26px;border-radius:10px;color:#1f5c45;font-weight:600 }
+
+  @media(max-width:800px){
+    .sidebar{ width:220px }
+    .page{ margin:86px 12px }
+    .hero h1{ font-size:1.6rem }
+  }
+  @media(max-width:480px){
+    .hero{ padding:42px 12px }
+    header{ height:56px }
+  }
+</style>
+</head>
+
+<body>
+<!-- ✅ BACK BUTTON -->
+<header>
+  <div class="toggle-btn" id="toggle">☰</div>
+  <div class="logo"><img src="images/Logo_imambuddy.jpeg" alt="ImamBuddy"></div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="about.html">📜 About</a></li>
+    <li><a href="tauhid.html">🕌 Tauhid</a></li>
+    <li><a href="asas.html">📘 Aqidah</a></li>
+    <li><a href="learn.html">📖 Al-Quran</a></li>
+    <li><a href="contact.html">✉️ Contact</a></li>
+  </ul>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+<div class="bg-shapes">
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+
+<main class="page">
+  <section class="hero">
+    <h1>Konsep Al-Sam'iyat: Pasca Kiamat</h1>
+    <p></p>
+  </section>
+
+  <a href="asas.html" class="back-btn">← Kembali</a>
+
+
+<div class="container">
+
+  <!-- ACCORDION 1: Al-Qiyamah -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Al-Qiyamah</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Pasca al-Qiyamah merupakan bahagian yang paling penting dalam keseluruhan perbahasan mengenai al-sam'iyat.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 2: Sangkakala kedua -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Sangkakala kedua</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Jarak antara sangkakala pertama dan kedua adalah 40 (iaitu sesuatu digit yang tidak ditentukan kuantitinya yang sebenar). Dan sebelum berlakunya sangkakala kedua, Allah SWT telah menurunkan hujan yang membasahi padang mahsyar bagi menghidupkan makhluk-Nya daripada kubur-kubur mereka, khususnya manusia yang tercipta semua daripada tulang ekor mereka.</p>
+      
+      <p class="arabic">"أنَارَ تَظَلَ سَعْرَاتَ الْمُصْرُ عَنْدَهُ أَرْبَعُونَ..."</p>
+      
+      <p><strong>Hadis Rasulullah SAW:</strong> "Antara dua tiupan sangkakala adalah empat puluh." Para sahabat bertanya: "Empat puluh hari?" Beliau (Abu Hurairah RA) menjawab: "Abu enggan menjawab." Mereka bertanya lagi: "Empat puluh bulan?" Beliau menjawab: "Abu enggan menjawab." Mereka bertanya lagi: "Empat puluh tahun?" Beliau menjawab: "Abu enggan menjawab." Kemudian Rasulullah SAW bersabda: "Kemudian Allah menurunkan air dari langit, maka manusia akan tumbuh (hidup) seperti tumbuhnya tumbuhan. Tidak ada dari manusia yang tersisa kepada satu tulang, iaitu tulang ekor, dan dari tulang itulah manusia akan dibangkitkan pada hari kiamat."</p>
+      
+      <p class="hadith-ref">Riwayat Bukhari: 4935</p>
+      
+      <h3>Roh Selepas Sangkakala Pertama</h3>
+      <p>Terdapat sebuah hadis yang penting menggambarkan situasi yang berlaku semasa kebangkitan semula dan sangkakala kedua. Dalam perbahasan mengenai hadis ini, terdapat pandangan menyebut bahwa roh yang sudah dimatikan semasa berlakunya sangkakala tidak akan merasai kedahsyatan hari al-Qiyamah. Namun roh-roh ini akan dipengsankan, manakala makhluk yang masih lagi hidup akan merasainya.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 3: Pintu Syurga -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Pintu Syurga</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Tentang pintu-pintu syurga yang lain yang berbeza daripada riwayat di atas, terdapat hadis yang menerangkan mengenainya iaitu lapan pintu untuk memasuki syurga. Dan ini berbeza daripada konsep tingkatan darjat syurga.</p>
+      
+      <p class="arabic">"حسابه أفقًا ربيعٌ كلام الله السياحة للعامل..."</p>
+      
+      <p><strong>Hadis Rasulullah SAW:</strong> "Sesungguhnya di dalam syurga terdapat lapan pintu..."</p>
+      
+      <p class="hadith-ref">Riwayat Muslim: 181</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 4: Tingkatan Syurga -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Tingkatan Syurga</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Terdapat beberapa hadis menyebutkan bahawa syurga itu terdapat 100 tingkat dan yang tertingginya adalah syurga Firdaus.</p>
+      
+      <p class="arabic">"إنَّ فِي الجَنَّةِ مِائَةَ دَرَجَةٍ أَعْدَهَا اللَّهُ لِلْمُجَاهِدِينَ فِي سَبِيلِهِ، مَا بَيْنَ الدَّرَجَتَيْنِ كَمَا بَيْنَ السَّمَاءِ وَالأَرْضِ، فَإِذَا سَأَلْتُمُ اللَّهَ فَسَلُوهُ الْفِرْدَوْسَ، فَإِنَّهُ أَوْسَعُ أَجْمَةٍ وَأَعْلَاهَا، وَفَوْقَهُ عَرْشُ الرَّحْمَنِ، وَمِنْهُ تَفَجَّرُ أَنْهَارُ الْجَنَّةِ."</p>
+      
+      <p><strong>Terjemahan:</strong> <em>"Sesungguhnya di dalam syurga terdapat seratus tingkatan yang Allah SWT sediakan untuk orang-orang yang berjihad di jalan-Nya, jarak di antara setiap tingkat itu adalah seperti (jarak) antara langit dan bumi. Jika kamu semua meminta kepada Allah, maka mintalah kepada-Nya syurga Firdaus, kerana ia merupakan syurga paling luas dan paling tinggi (tingkatannya)."</em></p>
+      
+      <p class="hadith-ref">Riwayat Muslim: 234</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 5: Jenis-jenis Syurga dalam Al-Quran -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Jenis-jenis Syurga dalam Al-Quran</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <h3>1. Jannah al-Firdaus</h3>
+      <p>Antara kelebihan <em>Jannah al-Firdaus</em> ialah ia adalah yang tertinggi dan paling tengah kedudukannya. Rasulullah SAW bersabda: "Apabila kamu meminta kepada Allah, maka mintalah syurga Firdaus. Sesungguhnya ia adalah syurga yang paling tengah dan paling tinggi. Di atasnya terdapat Arasy ar-Rahman dan daripadanya mengalir sungai-sungai syurga."</p>
+      <p>Allah SWT berfirman: <em>"Sesungguhnya orang-orang yang beriman dan beramal soleh, bagi mereka disediakan syurga Firdaus sebagai tempat tinggal."</em> (Surah al-Kahfi: 18: 107)</p>
+      
+      <h3>2. Jannah al-'Adn atau Eden</h3>
+      <p>Syurga al-'Adn disediakan bagi orang-orang yang bertaqwa, beriman dan beramal soleh. Allah berfirman: <em>"(Bagi) orang-orang yang beriman dan mengerjakan amal-amal yang soleh, bagi mereka syurga-syurga 'Adn yang mengalir di bawahnya sungai-sungai. Di situlah mereka kekal selama-lamanya."</em> (Surah al-Taubah: 9:72)</p>
+      
+      <h3>3. Jannah al-Na'im</h3>
+      <p>Ciri-ciri penghuni syurga al-Na'im ialah orang yang beriman dan beramal soleh. Allah SWT berfirman: <em>"Sesungguhnya orang-orang yang beriman dan beramal soleh, bagi mereka syurga kenikmatan (Na'im)."</em> (Surah Luqman: 31:8)</p>
+      
+      <h3>4. Jannah al-Ma'wa</h3>
+      <p>Kedudukan syurga al-Ma'wa adalah berhampiran dengan Sidrat al-Muntaha. Allah SWT berfirman: <em>"Di sisi Sidrat al-Muntaha, di situ syurga tempat tinggal (Jannah al-Ma'wa)."</em> (Surah al-Najm: 53: 14-15)</p>
+      
+      <h3>5. Jannah al-Khuld</h3>
+      <p>Syurga al-Khuld merupakan gambaran jelas mengenai sifat makhluk khususnya ahli syurga memiliki sifat kekekalan setelah diizinkan Allah SWT. Allah SWT berfirman: <em>"Katakanlah (Muhammad), 'Apakah (balasan) yang demikian itu lebih baik, ataukah syurga yang kekal (Jannat al-Khuld) yang dijanjikan kepada orang-orang yang bertaqwa sebagai balasan dan tempat kembali mereka?"</em> (Surah al-Furqan: 25: 15)</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 6: Telaga Al-Haudh -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Telaga Al-Haudh</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Telaga al-Haudh adalah telaga Nabi Muhammad SAW yang akan diberikan kepada umatnya pada hari kiamat...</p>
+
+      <p class="arabic">"توخي صورة شيء ..." </p>
+
+      <p>Terjemahan: <em>"Jaraknya sejauh satu bulan perjalanan..."</em></p>
+
+      <p class="hadith-ref">Riwayat Bukhari: 6579</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION 7: Syafaat -->
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Syafaat</h2>
+      <span>+</span>
+    </div>
+    <div class="accordion-content">
+      <p>Syafaat adalah pertolongan yang diberikan oleh Nabi Muhammad SAW dan para nabi lainnya kepada umat manusia di hari kiamat...</p>
+
+      <p class="arabic">"قُل لِّلَّهِ الشَّفَاعَةُ..."</p>
+
+      <p>Terjemahan: <em>"Katakanlah, 'Allah sahajalah...'"</em></p>
+
+      <p class="hadith-ref">Surah al-Zumar: 39:44</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+<footer>
+  &copy; <script>document.write(new Date().getFullYear())</script> Asas Aqidah Islam.
+</footer>
+
+<script>
+  // Sidebar toggle
+  const toggle = document.getElementById('toggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  toggle.onclick = ()=>{ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+  overlay.onclick = ()=>{ sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+
+  // Accordion
+  document.querySelectorAll('.accordion').forEach(acc=>{
+    acc.querySelector('.accordion-header').addEventListener('click', ()=> acc.classList.toggle('active'));
+  });
+
+  // small hero visible transition (optional)
+  document.addEventListener('DOMContentLoaded', ()=> {
+    setTimeout(()=> document.querySelector('.hero').classList.add('visible'), 120);
+  });
+</script>
+
+</body>
+</html>

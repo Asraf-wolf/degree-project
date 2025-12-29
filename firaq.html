@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ahli Sunnah Wal Jamaah - Pengenalan & Ciri-Ciri</title>
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{ font-family:'Poppins',sans-serif; background:#f4f8f6; color:#1d2b28; overflow-x:hidden; }
+  /* floating shapes */
+  .bg-shapes{position:fixed;inset:0;z-index:-1}
+  .shape{position:absolute;width:90px;height:90px;background:rgba(77,169,140,0.12);border-radius:50%;filter:blur(4px);animation:float 12s ease-in-out infinite}
+  .shape:nth-child(1){top:12%;left:8%}
+  .shape:nth-child(2){top:60%;left:72%;animation-delay:3s}
+  .shape:nth-child(3){top:80%;left:32%;animation-delay:6s}
+  @keyframes float{50%{transform:translateY(-30px)}}
+
+  /* header */
+  header{ position:fixed; top:0; width:100%; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px); border-bottom:1px solid rgba(0,0,0,0.05); z-index:1000; }
+  .toggle-btn{ font-size:1.8rem; color:#4da98c; cursor:pointer }
+  .logo img{ width:44px; height:44px; border-radius:50% }
+
+  /* sidebar */
+  .sidebar{ position:fixed; top:0; left:0; width:240px; height:100%; background:linear-gradient(180deg,#fff,#e7f3ef); padding-top:82px; transform:translateX(-110%); transition:.4s; box-shadow:4px 0 20px rgba(0,0,0,0.08); z-index:999 }
+  .sidebar.active{ transform:translateX(0) }
+  .sidebar ul{ list-style:none }
+  .sidebar li{ padding:14px 20px }
+  .sidebar a{ color:#30423d; font-weight:600; text-decoration:none; display:flex; gap:8px }
+  .sidebar a:hover{ color:#4da98c }
+
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.4); opacity:0; visibility:hidden; transition:.3s; z-index:998 }
+  .overlay.active{ opacity:1; visibility:visible }
+
+  /* content area */
+  .page{ max-width:940px; margin:92px auto 48px; padding:0 16px }
+  .hero{ background:linear-gradient(135deg,#d7ebe5,#a7d4c8); padding:64px 18px; border-radius:20px; text-align:center; }
+  .hero h1{ font-family:'Amiri',serif; color:#3f866f; font-size:2.4rem }
+  .hero p{ margin-top:10px; color:#355a52 }
+
+  .back-btn{ display:inline-block;margin:18px 0;padding:10px 16px;background:#eaf7f1;border-radius:12px;border:1px solid #d6efe3;color:#26503f;text-decoration:none;font-weight:700 }
+
+  .accordion{ background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,0.06); border-left:6px solid #4da98c }
+  .accordion-header{ display:flex;justify-content:space-between;align-items:center;padding:16px; cursor:pointer; background:#f0fbf7 }
+  .accordion-header h2{ font-family:'Amiri',serif;color:#3b7c66;font-size:1.05rem;margin:0 }
+  .accordion-header span{ color:#3b7c66; font-size:20px }
+  .accordion-content{ max-height:0; overflow:hidden; transition:max-height .45s ease, padding .3s; padding:0 16px }
+  .accordion.active .accordion-content{ max-height:3000px; padding:16px }
+
+  p,li{ color:#27433a; line-height:1.7; font-size:0.97rem; margin-bottom:10px }
+  .arabic{ font-family:'Amiri',serif; direction:rtl; text-align:right; background:#f6fff9;padding:10px;border-radius:8px;color:#234b3f }
+  .hadith-ref{ font-size:13px; color:#6b8376 }
+  
+  .quran-box { background:#f8fcf9; border-left:4px solid #4da98c; padding:15px; margin:15px 0; border-radius:8px; }
+  .quran-arabic { font-family:'Amiri',serif; font-size:1.2rem; text-align:right; margin-bottom:8px; }
+  .quran-translation { font-style:italic; color:#3a6b5a; }
+  .quran-ref { font-size:0.9rem; color:#5a7c6d; font-weight:600; }
+  
+  .hadith-box { background:#f9f7f1; border-left:4px solid #e6b657; padding:15px; margin:15px 0; border-radius:8px; }
+  .hadith-arabic { font-family:'Amiri',serif; font-size:1.1rem; text-align:right; margin-bottom:8px; }
+  .hadith-translation { color:#5d4a2a; }
+  .hadith-ref { font-size:0.9rem; color:#8a7b5d; }
+  
+  .info-box { background:#eef7f9; border-left:4px solid #5a9fc9; padding:15px; margin:15px 0; border-radius:8px; }
+  .info-title { font-weight:700; color:#2a556d; margin-bottom:8px; }
+  
+  .quote-box { background:#f9f3e9; border-left:4px solid #d4a962; padding:15px; margin:15px 0; border-radius:8px; font-style:italic; color:#5d4a2a; }
+  
+  .warning-box { background:#fdf3f2; border-left:4px solid #e74c3c; padding:15px; margin:15px 0; border-radius:8px; }
+  .warning-title { font-weight:700; color:#c0392b; margin-bottom:8px; }
+  
+  .sect-box { background:#f5f0fa; border-left:4px solid #8e44ad; padding:15px; margin:15px 0; border-radius:8px; }
+  .sect-title { font-weight:700; color:#6c3483; margin-bottom:8px; }
+
+  footer{ text-align:center;padding:18px;background:#d8ebe6;margin-top:26px;border-radius:10px;color:#1f5c45;font-weight:600 }
+
+  @media(max-width:800px){
+    .sidebar{ width:220px }
+    .page{ margin:86px 12px }
+    .hero h1{ font-size:1.6rem }
+  }
+  @media(max-width:480px){
+    .hero{ padding:42px 12px }
+    header{ height:56px }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="toggle-btn" id="toggle">☰</div>
+  <div class="logo"><img src="images/Logo_imambuddy.jpeg" alt="ImamBuddy"></div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="about.html">📜 About</a></li>
+    <li><a href="tauhid.html">🕌 Tauhid</a></li>
+    <li><a href="asas.html">📘 Asas Aqidah</a></li>
+    <li><a href="learn.html">📖 Learning Al Quran</a></li>
+    <li><a href="ajaran.html">💢 Ajaran Sesat</a></li>
+    <li><a href="firaq.html">🧑‍🧒‍🧒 Firaq Al-Islamiyyah</a></li>
+    <li><a href="qiblat.html">🧭 Qibla</a></li>
+    <li><a href="contact.html">✉️ Contact</a></li>
+  </ul>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="bg-shapes">
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+
+<main class="page">
+  <section class="hero">
+    <h1>Firaq Al-Islamiyyah</h1>
+    <p>Pengenalan, Ciri-Ciri dan Konsep Asas</p>
+  </section>
+
+
+  <div class="accordion active">
+    <div class="accordion-header">
+      <h2>Pengenalan Ahl Sunnah Wal Jamaah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Ahl Sunnah wal Jamaah adalah golongan yang berpegang teguh pada al-Quran, al-Hadith atau Sunnah Rasulullah SAW, dan ijma' para sahabat serta ulama yang terdiri dari kalangan para sahabat, para al-Tabi'in dan orang yang mengikuti mereka dari kalangan mujtahidin yang berpegang pada al-Quran dan al-Hadith serta segala manusia yang mengikuti jalan mereka (Johari Mat, Julai 1997, 1).</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوٓا۟ أَطِيعُوا۟ ٱللَّهَ وَأَطِيعُوا۟ ٱلرَّسُولَ وَأُو۟لِى ٱلْأَمْرِ مِنكُمْ ۖ فَإِن تَنَـٰزَعْتُمْ فِى شَىْءٍۢ فَرُدُّوهُ إِلَى ٱللَّهِ وَٱلرَّسُولِ إِن كُنتُمْ تُؤْمِنُونَ بِٱللَّهِ وَٱلْيَوْمِ ٱلْءَاخِرِ ۚ ذَٰلِكَ خَيْرٌۭ وَأَحْسَنُ تَأْوِيلًا
+        </div>
+        <div class="quran-translation">
+          Wahai orang-orang yang beriman, taatlah kamu kepada Allah dan taatlah kamu kepada Rasulullah dan kepada "UliL-Amri" (orang-orang yang berkuasa) dari kalangan kamu. Kemudian jika kamu berbantah-bantah (berselisihan) dalam sesuatu perkara, maka hendaklah kamu mengembalikannya kepada (Kitab) Allah (al-Quran) dan (Sunnah) RasulNya jika kamu benar beriman kepada Allah dan hari akhirat. Yang demikian adalah lebih baik (bagi kamu) dan lebih elok pula kesudahannya.
+        </div>
+        <div class="quran-ref">Surah al-Nisa: 4:59</div>
+      </div>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          وَكَذَٰلِكَ جَعَلْنَـٰكُمْ أُمَّةًۭ وَسَطًۭا
+        </div>
+        <div class="quran-translation">
+          Dan demikianlah Kami jadikan kamu (umat Islam) satu umat yang adil dan pilihan.
+        </div>
+        <div class="quran-ref">Surah al-Baqarah: 2:143</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Ciri-Ciri Ahl Sunnah Wal Jamaah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Ahl Sunnah wa al-Jamaah merujuk kepada golongan majoriti umat Islam yang mengikuti ajaran Islam berdasarkan kepada al-Quran, Sunnah Nabi Muhammad SAW, dan kefahaman para sahabat serta tiga kurun yang awal (Salaf al-Salih) (O.K. Rahmat S.H., 1976, 538).</p>
+      
+      <p><strong>Ciri-ciri utama:</strong></p>
+      <ul>
+        <li>Berpegang kepada al-Quran dan Sunnah</li>
+        <li>Mengikuti kefahaman para sahabat dan salaf al-salih</li>
+        <li>Menolak bid'ah dalam agama</li>
+        <li>Mementingkan perpaduan umat</li>
+        <li>Menerima ijmak dan qiyas sebagai sumber hukum</li>
+        <li>Beriman dengan perkara ghaib</li>
+      </ul>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          سُتَّل الْهِي صَلَ اللهُ عِلْمِهِ وَسَلَّدٌ: أَي النَّاسِ خَيْرٌ؟ قَالَ: قَرْفٍ، مَا الْذِينَ بِلُوتُمْهُ وَ سَبْكَ بِلُوتُمْهُ مَا حَيْرٌ؟ فَمْ سَبْقَ شَهَادَةً أحدهُمْ كَيْنَهُ، وَكَيْنَهُ شَهَادَتَهُ الْذِينَ بِلُوتُمْهُ مَا حَيْرٌ؟ فَمْ سَبْقَ شَهَادَةً أحدهُمْ كَيْنَهُ، وَكَيْنَهُ شَهَادَتَهُ
+        </div>
+        <div class="hadith-translation">
+          Nabi SAW ditanya: 'Siapakah manusia yang terbaik?' Baginda menjawab: 'Kurunku (generasiku), kemudian generasi yang datang sesudah mereka, kemudian generasi yang datang sesudah mereka. Kemudian akan datang suatu kaum yang mana kesaksian seseorang di antara mereka mendahului sumpahnya, dan sumpahnya mendahului kesaksiannya.
+        </div>
+        <div class="hadith-ref">Riwayat Bukhari: 6658</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Konsep Firaq Al-Islamiyyah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Dari sudut terminologi (istilah), firaq dalam konteks Islam merujuk kepada kumpulan-kumpulan dalam kalangan umat Islam yang berpecah dari segi pegangan akidah, fiqh, politik atau pandangan teologi.</p>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          افترقت البود على إحدى وسيعين فرقة، وافترقت التصارى على الفتني وسيعين فرقة، وستفترق هذه الأمة على ثلاث وسيعين فرقة كلها في التأريل واحدة
+        </div>
+        <div class="hadith-translation">
+          Umat Yahudi telah berpecah kepada 71 golongan, Nasrani berpecah kepada 72 golongan, dan umatku akan berpecah kepada 73 golongan, kesemuanya di dalam neraka kecuali satu golongan.
+        </div>
+        <div class="hadith-ref">Riwayat Tirmidhi: 444 dan al-Hakim: 449</div>
+      </div>
+      
+      <p><strong>Contoh firaq yang wujud dalam sejarah Islam:</strong></p>
+      <ul>
+        <li>Ahlī Sunnah Wal Jamaah</li>
+        <li>Syiah</li>
+        <li>Khawarij</li>
+        <li>Mu'tazilah</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Sumber Hukum Ahl Sunnah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Selain al-Quran dan Sunnah, Ahl Sunnah wa al-Jamaah turut mengakui <em>ijma</em> (kesepakatan para ulama) dan <em>qiyas</em> (analogi) sebagai sumber hukum yang sah.</p>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          إن أُمْتُ لا تُجْمَعَ عَلِ ضَلايةٍ فإذا رأيٌ اختلافًا فعلياً بالسواد الأعظم
+        </div>
+        <div class="hadith-translation">
+          Sesungguhnya umatku tidak akan bersepakat dalam kesesatan. Maka, apabila kamu melihat perselisihan, berpeganglah kepada as-sawad al-a'zham (golongan majoriti).
+        </div>
+        <div class="hadith-ref">Riwayat Abu Daud: 3592</div>
+      </div>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          إِنَّمَا ٱلْمُؤْمِنُونَ إِخْوَةٌۭ فَأَصْلِحُوا۟ بَيْنَ أَخَوَيْكُمْ ۚ وَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تُرْحَمُونَ
+        </div>
+        <div class="quran-translation">
+          Sesungguhnya orang-orang mukmin itu bersaudara; maka damaikanlah antara kedua saudaramu, dan bertakwalah kepada Allah supaya kamu mendapat rahmat.
+        </div>
+        <div class="quran-ref">Surah al-Hujurat: 49:10</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Konsep Usul dan Furu'</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p><strong>Usul</strong> merujuk kepada perkara asas atau dasar dalam perihal agama, terutamanya yang melibatkan akidah dan kepercayaan.</p>
+      
+      <p><strong>Contoh Usul Akidah:</strong></p>
+      <ul>
+        <li>Keesaan Allah (Tauhid)</li>
+        <li>Kerasulan Nabi Muhammad SAW</li>
+        <li>Kepercayaan kepada perkara-perkara ghaib</li>
+        <li>Hari kiamat, malaikat, jin</li>
+      </ul>
+      
+      <p><strong>Furu'</strong> merujuk kepada cabang dari perbahasan dasar, amalan atau hukum-hakam dalam akidah atau syariah seperti ibadah, muamalat, dan hukuman.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ
+        </div>
+        <div class="quran-translation">
+          Iaitu mereka yang beriman kepada perkara-perkara yang ghaib, mendirikan solat, dan dari pada apa yang Kami kurniakan kepada mereka, mereka menginfahkan.
+        </div>
+        <div class="quran-ref">Surah al-Baqarah: 2:3</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Kepatuhan kepada Pemimpin</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Ahl Sunnah wa al-Jamaah menekankan kepatuhan kepada pemimpin selagi perintah mereka tidak bertentangan dengan hukum Allah dan Rasul-Nya.</p>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          من أطاعي فقد أطاع الله، ومن عصاي فقد عمى الله، ومن أطاع أمري فقد أطاعي، ومن عمى أمري فقد عصاي
+        </div>
+        <div class="hadith-translation">
+          Sesiapa yang taat kepadaku, maka dia telah taat kepada Allah. Dan sesiapa yang derhaka kepadaku, maka dia telah derhaka kepada Allah. Dan sesiapa yang taat kepada pemimpinnya, maka dia telah taat kepadaku.
+        </div>
+        <div class="hadith-ref">Riwayat Muslim: 1839</div>
+      </div>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          وَٱلسَّـٰبِقُونَ ٱلْأَوَّلُونَ مِنَ ٱلْمُهَـٰجِرِينَ وَٱلْأَنصَارِ وَٱلَّذِينَ ٱتَّبَعُوهُم بِإِحْسَـٰنٍۢ رَّضِىَ ٱللَّهُ عَنْهُمْ وَرَضُوا۟ عَنْهُ
+        </div>
+        <div class="quran-translation">
+          Dan orang-orang yang terdahulu lagi yang pertama (masuk Islam) dari kalangan Muhajirin dan Ansar dan orang-orang yang mengikuti mereka dengan baik, Allah redha kepada mereka dan mereka redha kepada-Nya.
+        </div>
+        <div class="quran-ref">Surah al-Taubah: 9:100</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Aliran-Aliran dalam Ahl Sunnah Wal Jamaah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Zulkifli al-Bakri (2024) menukilkan bahawa kesemua daripada kalangan Asya'irah, Maturidiyah, Hanabilah yang kemudian disebut sebagai "Salafiyah" adalah merupakan Ahl al-Sunnah, dan lawan mereka adalah golongan Mu'tazilah dan Khawarij.</p>
+      
+      <div class="info-box">
+        <div class="info-title">Siapakah Ahl Sunnah Wa Al-Jamaah?</div>
+        <p>Menurut Syeikh al-Azhar Ahmad al-Tayyib, Ahl al-Sunnah wa al-Jama'ah itu adalah:</p>
+        <ul>
+          <li>Al-Asya'irah</li>
+          <li>Al-Maturidiyyah</li>
+          <li>Ahl Hadith (Salafiah atau Athariah)</li>
+          <li>Fuqaba' al-Hanafiyyah</li>
+          <li>Al-Malikiyyah</li>
+          <li>Al-Syafi'iyyah</li>
+          <li>Mereka yang mu'adil dari kalangan fuqaba' al-Hanabilah</li>
+        </ul>
+      </div>
+      
+      <p>Menurut al-Baghdadi (1998), Ahl Sunnah wa al-Jamaah merujuk kepada:</p>
+      <ul>
+        <li>Ahl Kalam yang bersih dari Tasybih, Ta'thil serta Bidaah</li>
+        <li>Seluruh golongan Ahl Fiqh dari Ahl Ra'yi atau Ahl Hadith yang bebas dari Tasybih atau Ta'thil</li>
+        <li>Ahl Hadith yang bersih dari hawa nafsu</li>
+        <li>Ahl Lughah atau Bahasa (Arab) yang bersih dari hawa nafsu</li>
+        <li>Ahl Qiraat dalam lapangan pembacaan al-Quran</li>
+        <li>Ahl Zuhd dari golongan tasawwuf yang berpaksikan al-Quran dan al-Hadith</li>
+        <li>Golongan yang menjaga sempadan negara dari pencerobohan</li>
+        <li>Seluruh rakyat jelata yang mengikut kefahaman Ahl Sunnah wa al-Jamaah</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Salafiah / Athariah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Golongan ini pada asalnya mengikuti prinsip Ahl al-Hadith iaitu muncul sekitar abad ke-2 dan ke-3 Hijrah, ketika para ulama mula menekankan kepentingan hadis Nabi Muhammad SAW sebagai sumber utama dalam menentukan hukum-hakam agama, selain daripada al-Quran.</p>
+      
+      <p><strong>Ciri-ciri Salafiah/Athariah:</strong></p>
+      <ul>
+        <li>Berpegang kepada ajaran generasi salaf (tiga generasi terawal umat Islam)</li>
+        <li>Cenderung berpegang secara literal kepada teks al-Quran dan hadis tanpa banyak takwil</li>
+        <li>Mengelakkan penggunaan akal dalam hal-hal yang ghaib</li>
+        <li>Menyeru kepada ajaran yang suci dan murni daripada peninggalan Salaf al-Saleh</li>
+        <li>Menggunakan metodologi Tauhid Tiga: Rububiyyah, Uluhiyyah dan Asma' wa Sifat</li>
+      </ul>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          هُوَ ٱلَّذِىٓ أَنزَلَ عَلَيْكَ ٱلْكِتَـٰبَ مِنْهُ ءَايَـٰتٌۭ مُّحْكَمَـٰتٌ هُنَّ أُمُّ ٱلْكِتَـٰبِ وَأُخَرُ مُتَشَـٰبِهَـٰتٌۭ ۖ فَأَمَّا ٱلَّذِينَ فِى قُلُوبِهِمْ زَيْغٌۭ فَيَتَّبِعُونَ مَا تَشَـٰبَهَ مِنْهُ ٱبْتِغَآءَ ٱلْفِتْنَةِ وَٱبْتِغَآءَ تَأْوِيلِهِۦ ۗ وَمَا يَعْلَمُ تَأْوِيلَهُۥٓ إِلَّا ٱللَّهُ ۗ وَٱلرَّٰسِخُونَ فِى ٱلْعِلْمِ يَقُولُونَ ءَامَنَّا بِهِۦ كُلٌّۭ مِّنْ عِندِ رَبِّنَا ۗ وَمَا يَذَّكَّرُ إِلَّآ أُو۟لُوا۟ ٱلْأَلْبَـٰبِ
+        </div>
+        <div class="quran-translation">
+          Dialah yang menurunkan kepadamu (wahai Muhammad) Kitab Suci al-Quran. Sebahagian besar dari al-Quran itu ialah ayat-ayat "Muhkamaat" (yang tetap, tegas dan nyata maknanya serta jelas maksudnya); ayat-ayat Muhkamaat itu ialah ibu (atau pokok) isi al-Quran dan yang lain lagi ialah ayat-ayat "Mutasyaabihat" (yang samar-samar, tidak terang maksudnya). Oleh sebab itu (timbullah faham yang berlainan menurut kandungan hati masing-masing) adapun orang-orang yang ada dalam hatinya kecenderungan ke arah kesesatan, maka mereka selalu menurut apa yang samar-samar dari al-Quran untuk mencari fitnah dan mencari-cari Takwilnya (memutarkan maksudnya menurut yang disukainya). Padahal tidak ada yang mengetahui Takwilnya (tafsir maksudnya yang sebenar) melainkan Allah.
+        </div>
+        <div class="quran-ref">Surah Ali Imran: 3:7</div>
+      </div>
+      
+      <p>Antara tokoh yang dikaitkan dengan aliran ini adalah Imam Ahmad bin Hanbal dan Imam Ibn Taymiyyah. Di Malaysia, aliran Salafiah ini sering diamalkan serta dijadikan manhaj negeri iaitu di Perlis (Zakaria @ Mahmod Daud, 1997, 109).</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Asya'irah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Asya'irah diasaskan oleh Imam Abu al-Hasan al-Ash'ari (260H-324H). Beliau adalah keturunan daripada sahabat Nabi SAW iaitu Abu Musa al-Ash'ari.</p>
+      
+      <p><strong>Ciri-ciri Asya'irah:</strong></p>
+      <ul>
+        <li>Menekankan penggunaan akal yang seimbang dengan dalil naqli (al-Quran dan hadis)</li>
+        <li>Menggunakan metodologi Tauhid Sifat 20 dalam memahami Allah SWT</li>
+        <li>Memahami ayat Sifat dengan kaedah takwil dan tafwidh</li>
+        <li>Mengikuti kaedah ulama Khalaf dalam perbahasan akidah</li>
+      </ul>
+      
+      <div class="quote-box">
+        "al-Quran harus sesuai dengan zahirnya. Kita tidak berhak mengeluarkannya dari Zahir nas kecuali dengan adanya hujjah (dalil). Dan jika tidak terdapat hujjah, maka al-Quran haruslah sesuai dengan zahirnya."<br>
+        <strong>- Abu al-Hassan al-Ash'ari (2017, 149)</strong>
+      </div>
+      
+      <p>Imam Nawawi mengiktiraf pandangan Salaf dan sebahagian Ahl Kalam iaitu mengitibatkan Allah SWT sebagaimana layaknya zahir ayat tanpa memahaminya dalam konteks manusia, begitu juga kaedah takwil (Mohd Saiful Agil Naim, 2022, 36-37).</p>
+      
+      <p>Di dalam alam Melayu khususnya di Malaysia, aliran yang dominan ialah aliran pemikiran serta metodologi Imam Abu Hassan al-Ash'ari atau al-Asya'irah (Mohd Fauzi Hamat, 8-9 Julai 2008, 4).</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Maturidiah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Maturidiah diasaskan oleh Imam Abu Mansur al-Maturidi (wafat 333H). Aliran ini berakar umbi daripada pegangan Imam Abu Hanifah, Imam al-Tahawi dan lain-lain lagi.</p>
+      
+      <p><strong>Ciri-ciri Maturidiah:</strong></p>
+      <ul>
+        <li>Sangat rapat dengan golongan Asya'irah dari segi akidah</li>
+        <li>Lebih menekankan penggunaan akal dalam beberapa isu akidah berbanding Asya'irah</li>
+        <li>Menganggap manusia mempunyai kebebasan dalam memilih (qada' dan qadar)</li>
+        <li>Menggunakan hujah akal untuk menyokong kefahaman, tapi tetap merujuk kepada nas</li>
+      </ul>
+      
+      <div class="quote-box">
+        "Jalan untuk mencapai sesuatu ilmu tentang hakikat (kebenaran) sesuatu perkara ada tiga iaitu: 'Iyan (mengamati/melihat), akhbar (informasi) dan nazhar (berfikir)."<br>
+        <strong>- Abu Mansur al-Maturidi (2004, 7)</strong>
+      </div>
+      
+      <div class="quote-box">
+        "Yang menjadi prinsip kami, bahawa tiada sesuatu pun makhluk yang menyerupai Allah SWT. Jadi ini menafikan kemiripan-Nya dengan para makhluk-Nya. Sebagaimana kami jelaskan, perbuatan dan sifat-sifat Allah tersuci (taqdis) dari pada kemiripan makhluk."<br>
+        <strong>- Abu Mansur al-Maturidi (2004, 74)</strong>
+      </div>
+      
+      <p>Menurut Syeikh Muhammad Abu Zahrah, mazhab Asy'ariah merupakan pertengahan antara Ahl Hadith dan Muktazilah. Manakala Maturidiah pula mazhab pertengahan antara Mu'tazilah dan Asy'ariah.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Kesimpulan & Ahl Bidaah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <p>Kesimpulannya, Ahl Sunnah wal Jamaah mempunyai beberapa cabang utama, seperti Asyairah, Maturidiah, dan Salafiah (Ahl Hadis), yang kesemuanya bertujuan untuk memahami dan mengamalkan Islam berdasarkan al-Quran dan al-Hadith.</p>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          خَيْرُ النَّاسِ قَرْنِي ثُمَّ الَّذِينَ يَلُونَهُمْ ثُمَّ الَّذِينَ يَلُونَهُمْ
+        </div>
+        <div class="hadith-translation">
+          Sebaik-baik generasi adalah generasiku (sahabat), kemudian generasi berikutnya (tabi'in), kemudian generasi berikutnya (tabi' tabi'in).
+        </div>
+        <div class="hadith-ref">Riwayat Tirmidhi: 2133</div>
+      </div>
+      
+      <p>Perbezaan antara mereka lebih kepada pendekatan dalam memahami teks agama, terutama dalam soal akidah. Yang penting, mereka semua tetap berada dalam landasan yang sahih selagi berpegang kepada sunnah Rasulullah SAW dan ajaran para sahabat.</p>
+      
+      <div class="info-box">
+        <div class="info-title">Ahl Bidaah</div>
+        <p>Ahli Bidaah merujuk kepada individu atau golongan yang mengamalkan bidaah dalam agama Islam. Bidaah adalah penambahan atau pengubahan dalam ajaran agama yang tidak bersumber dari wahyu atau Sunnah Rasulullah SAW. Bidaah sering dianggap sebagai inovasi dalam ibadah yang tidak pernah dilakukan oleh Nabi Muhammad SAW dan para sahabat.</p>
+      </div>
+      
+      <p>Ketiga-tiga aliran cuba menyucikan Allah SWT daripada kemiripan dengan makhluk. Namun kaedah ketiga-tiga aliran berbeza cara interpretasi dalil Naqli yang bersifat ijtihad dan ia termasuk di dalam perbahasan yang bersifat Furu'.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Ciri-Ciri Ahli Bidaah (Terperinci)</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="warning-box">
+        <div class="warning-title">Ahlul Bidaah adalah golongan yang melakukan bidaah dalam agama Islam</div>
+        <p>Bidaah adalah penambahan atau pengubahan dalam ajaran agama yang tidak bersumber dari wahyu atau Sunnah Rasulullah SAW. Bidaah sering dianggap sebagai inovasi dalam ibadah yang tidak pernah dilakukan oleh Nabi Muhammad SAW dan para sahabat.</p>
+      </div>
+
+      <p><strong>1. Mengada-adakan sesuatu dalam Agama Tanpa Dalil Naqli:</strong></p>
+      <p>Salah satu ciri utama Ahlul Bidaah ialah mengada-adakan perkara baru dalam agama tanpa asas yang sahih dari al-Quran, Hadis, atau sunnah Nabi Muhammad SAW.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          ٱلْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِى وَرَضِيتُ لَكُمُ ٱلْإِسْلَـٰمَ دِينًۭا
+        </div>
+        <div class="quran-translation">
+          Pada hari ini Aku telah sempurnakan agamamu untukmu, dan Aku telah cukupkan nikmat-Ku kepadamu, dan Aku telah redhai Islam sebagai agama bagimu.
+        </div>
+        <div class="quran-ref">Surah al-Ma'idah: 5:3</div>
+      </div>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          مَنْ أَحْدَثَ فِى أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ
+        </div>
+        <div class="hadith-translation">
+          Barang siapa yang mengada-adakan sesuatu dalam urusan (agama) kami yang bukan daripadanya, maka ia tertolak.
+        </div>
+        <div class="hadith-ref">Hadis Riwayat Bukhari dan Muslim</div>
+      </div>
+
+      <p><strong>2. Menolak atau Mengabaikan Sunnah Rasulullah SAW:</strong></p>
+      <p>Ahlul Bidaah sering kali menolak atau tidak mempedulikan sunnah Nabi Muhammad SAW. Mereka tidak mematuhi ajaran Rasulullah dan sebaliknya mencipta amalan sendiri.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          وَمَآ ءَاتَىٰكُمُ ٱلرَّسُولُ فَخُذُوهُ وَمَا نَهَىٰكُمْ عَنْهُ فَٱنتَهُوا۟ ۚ وَٱتَّقُوا۟ ٱللَّهَ ۖ إِنَّ ٱللَّهَ شَدِيدُ ٱلْعِقَابِ
+        </div>
+        <div class="quran-translation">
+          Apa yang diberikan Rasul kepadamu maka terimalah dia, dan apa yang dilarangnya bagimu maka tinggalkanlah dan bertakwalah kamu kepada Allah; sesungguhnya Allah amatlah berat azab seksaNya (bagi orang-orang yang melanggar perintahNya).
+        </div>
+        <div class="quran-ref">Surah al-Hasyr: 59:7</div>
+      </div>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          كُلُّ مُحْدَثَةٍ بِدْعَةٌ وَكُلُّ بِدْعَةٍ ضَلَالَةٌ وَكُلُّ ضَلَالَةٍ فِي النَّارِ
+        </div>
+        <div class="hadith-translation">
+          Setiap perkara yang direka-reka adalah Bidaah, setiap bidaah itu sesat, dan setiap kesesatan itu di dalam neraka.
+        </div>
+        <div class="hadith-ref">Riwayat Muslim: 867</div>
+      </div>
+
+      <p><strong>3. Mengutamakan Akal dan Hawa Nafsu Melebihi Dalil Syara':</strong></p>
+      <p>Ahlul Bidaah sering mendahulukan akal fikiran dan hawa nafsu dalam amalan ibadah berbanding dengan dalil-dalil syara' yang jelas.</p>
+      
+      <div class="quote-box">
+        "Ikhutilah (ajaran Rasulullah) dan janganlah membuat perkara-perkara baru (dalam agama), kerana sesungguhnya kamu telah dicukupi."<br>
+        <strong>- Ibn Mas'ud ('Ali bin Abī Bakr al-Haythamī, 1896, 1: 186)</strong>
+      </div>
+
+      <p><strong>4. Berlebihan dalam Beribadah dan Mencipta Amalan yang Tidak Diajarkan:</strong></p>
+      <p>Ahlul Bidaah cenderung melakukan amalan ibadah secara berlebihan dengan menambah-nambah perkara yang tidak pernah dilakukan oleh Rasulullah SAW dan para sahabat.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          يَـٰٓأَهْلَ ٱلْكِتَـٰبِ لَا تَغْلُوا۟ فِى دِينِكُمْ وَلَا تَقُولُوا۟ عَلَى ٱللَّهِ إِلَّا ٱلْحَقَّ
+        </div>
+        <div class="quran-translation">
+          Wahai Ahli Kitab, janganlah kamu melampaui batas dalam agamamu, dan janganlah kamu mengatakan terhadap Allah kecuali yang benar.
+        </div>
+        <div class="quran-ref">Surah al-Nisa': 4:171</div>
+      </div>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          إِنَّ الدِّينَ يُسْرٌ وَلَنْ يُشَادَّ الدِّينَ أَحَدٌ إِلَّا غَلَبَهُ فَسَدِّدُوا وَقَارِبُوا
+        </div>
+        <div class="hadith-translation">
+          Sesungguhnya agama ini mudah, dan tidak seorang pun membuat-buat agama ini menjadi ketat dan susah kecuali pasti ia tidak akan sanggup dan kalah. Maka permudahlah dan dekatkanlah.
+        </div>
+        <div class="hadith-ref">Riwayat Bukhari: 39</div>
+      </div>
+
+      <p><strong>5. Menimbulkan Perpecahan dalam Kalangan Umat Islam:</strong></p>
+      <p>Satu lagi ciri penting Ahlul Bidaah ialah mereka sering menimbulkan perpecahan dalam kalangan umat Islam.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          ...وَلَا تَكُونُوا۟ مِنَ ٱلْمُشْرِكِينَ ۩ مِنَ ٱلَّذِينَ فَرَّقُوا۟ دِينَهُمْ وَكَانُوا۟ شِيَعًۭا ۖ كُلُّ حِزْبٍۭ بِمَا لَدَيْهِمْ فَرِحُونَ
+        </div>
+        <div class="quran-translation">
+          ...Dan janganlah kamu termasuk orang-orang yang mempersekutukan Allah, iaitu orang-orang yang memecah-belah agama mereka dan mereka menjadi beberapa golongan. Tiap-tiap golongan merasa bangga dengan apa yang ada pada golongan mereka.
+        </div>
+        <div class="quran-ref">Surah al-Rum: 30:31-32</div>
+      </div>
+
+      <p><strong>6. Mengubah Sifat dan Tujuan Ibadah:</strong></p>
+      <p>Ahlul Bidaah cenderung mengubah sifat asal ibadah. Mereka mungkin mengubah cara ibadah yang telah diajarkan oleh Rasulullah SAW.</p>
+      
+      <div class="quran-box">
+        <div class="quran-arabic">
+          قُلْ هَلْ نُنَبِّئُكُم بِٱلْأَخْسَرِينَ أَعْمَـٰلًا ۩ ٱلَّذِينَ ضَلَّ سَعْيُهُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسِنُونَ صُنْعًا
+        </div>
+        <div class="quran-translation">
+          Katakanlah: Apakah akan Kami beritahukan kepada kamu tentang orang-orang yang paling merugi perbuatannya? Yaitu orang-orang yang telah sia-sia perbuatannya dalam kehidupan dunia ini, sedangkan mereka menyangka bahwa mereka berbuat sebaik-baiknya.
+        </div>
+        <div class="quran-ref">Surah al-Kahfi: 18:103-104</div>
+      </div>
+      
+      <div class="hadith-box">
+        <div class="hadith-arabic">
+          مَا أَحْدَثَ قَوْمٌ بِدْعَةً إِلَّا رُفِعَ مِنَ السُّنَّةِ مِثْلُهَا
+        </div>
+        <div class="hadith-translation">
+          Setiap kali suatu kaum mengada-adakan suatu bidaah, maka sunnah yang setara dengannya akan diangkat (hilang). Maka berpegang teguh pada sunnah itu lebih baik daripada membuat bidaah.
+        </div>
+        <div class="hadith-ref">Riwayat Ahmad: 17011 (menurut Shu'aib Arna'ut sebagai Dha'if)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Muktazilah (Salah Satu Firaq Sesat)</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="warning-box">
+        <div class="warning-title">Muktazilah telah diasaskan oleh Wasil bin Atha' (699–748 M) di Basrah</div>
+        <p>Muktazilah muncul pada abad ke-8 apabila Wasil bin Atha' memisahkan diri daripada gurunya, Hasan al-Basri, dalam perdebatan mengenai status orang yang melakukan dosa besar. Menurutnya, orang tersebut berada di tengah-tengah di antara mukmin dan kafir iaitu "manzilah bayna manzilatayn".</p>
+      </div>
+
+      <p><strong>Lima Prinsip Utama Muktazilah (Usul al-Khamsah):</strong></p>
+      
+      <div class="info-box">
+        <div class="info-title">1. al-Tauhid</div>
+        <p>Tauhid dalam pengertian Muktazilah meliputi penafian kemiripan Allah dengan para makhluk. Mereka menetapkan bahawa Allah tidak memiliki jisim, tiada bentuk, bukan Jawhar (Substance) atau 'Aradh (Sifat), tiada juzuk-juzuk, tiada arah, tidak boleh bergerak. Pandangan ini menyebabkan mereka menafikan sifat Tuhan kerana tidak mahu Allah dipisahkan kepada juzuk-juzuk yang berbeza.</p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">2. al-Adl (Keadilan)</div>
+        <p>Muktazilah mempercayai bahawa Allah wajib memiliki sifat al-Adl. Mereka menafikan konsep takdir kerana bagi mereka seolah-olah Allah telah mencampuri urusan dan perbuatan hamba. Mereka sering dikatakan sebagai Qadariyyah akibat keyakinan mereka bahawa Allah SWT tidak menciptakan perbuatan hamba-Nya.</p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">3. al-Wa'd wa al-Wa'id (Janji dan Ancaman)</div>
+        <p>Menurut Muktazilah, Allah telah menjanjikan pahala bagi pelaku kebaikan dan penyiksaan bagi pelaku dosa. Bagi mereka, syafaat Rasulullah SAW hanya untuk orang-orang yang bertaubat.</p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">4. Manzilah Bayna Manzilatayn (Kedudukan antara Dua Kedudukan)</div>
+        <p>Aliran ini menyakini bahawa pelaku dosa besar berada di antara mukmin dan kafir. Ini bercanggah dengan ajaran Ahl Sunnah yang menyatakan bahawa pelaku dosa besar masih seorang mukmin tetapi berdosa. Mereka menolak konsep syafaat Nabi SAW untuk pelaku dosa besar pada Hari Kiamat.</p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">5. al-Amr bi al-Ma'ruf wa al-Nahy 'an al-Munkar</div>
+        <p>Walauptun semua aliran beriman dengan seruan ini, Muktazilah memahami konsep ini sebagai agenda politik yang dilaksanakan dengan sangat ekstrem.</p>
+      </div>
+
+      <p><strong>Isu-Isu Utama Muktazilah:</strong></p>
+      <ul>
+        <li><strong>Pengutamaan Akal Berbanding Wahyu:</strong> Muktazilah mengutamakan akal dan logik dalam memahami agama, walaupun perkara itu bercanggah dengan wahyu (al-Quran dan Hadis).</li>
+        <li><strong>Penafian Sifat Allah:</strong> Mereka menolak sifat-sifat Allah yang disebut dalam al-Quran, seperti Allah itu Maha Mendengar, Maha Melihat, dan beristirahat di atas Arasy.</li>
+        <li><strong>Merendahkan Status Para Sahabat RA:</strong> Bagi aliran ini, kedua-dua kelompok dari kalangan sahabat yang berperang dalam peperangan Siffin dan Jamal merupakan orang yang Fasik.</li>
+        <li><strong>Penolakan Hadis Ahad:</strong> Muktazilah tidak menerima hadith ahad sebagai hujah agama seperti dalam penetapan hukum.</li>
+      </ul>
+
+      <div class="warning-box">
+        <div class="warning-title">Perbandingan dengan Ahl Sunnah:</div>
+        <p><strong>Ahl Sunnah wa al-Jamaah:</strong> Menekankan kepentingan wahyu (al-Quran dan Sunnah) di samping akal, di mana wahyu tetap diutamakan dalam hal-hal akidah dan amalan. Menerima sifat-sifat Allah sebagaimana yang termaktub dalam Al-Quran tanpa menafsirkan secara melampau.</p>
+        <p><strong>Muktazilah:</strong> Mengutamakan penggunaan akal secara berlebihan dalam memahami akidah, menolak sifat-sifat Allah yang termaktub dalam al-Quran dan Sunnah, serta memperkenalkan konsep "manzilah bayn al-manzilatayn".</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Khawarij / Al-Hururiyyah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="sect-box">
+        <div class="sect-title">Khawarij atau al-Hururiyyah</div>
+        <p>Tidak mempunyai pengasas yang khusus, tetapi mereka muncul semasa pemerintahan Khalifah Ali bin Abi Talib RA. Khawarij adalah golongan yang pertama kali muncul selepas Perang Siffin apabila mereka menolak keputusan <em>tahkim</em> (arbitrasi) antara Ali dan Muawiyah (Ibn Kathir, <em>al-Bidayah wa al-Nihayah</em>, t.t. 7: 281).</p>
+        <p>Pemimpin pertama mereka adalah Abdullah bin Wahab al-Rasibi, dan mereka terkenal dengan sikap ekstremis, mengkafirkan sesiapa yang melakukan dosa besar atau salah menurut mereka. Antara mangsa pemberontakan dan pembunuhan mereka adalah Khalifah Uthman bin Affan RA dan Ali bin Abi Talib RA.</p>
+      </div>
+
+      <div class="quran-box">
+        <div class="quran-arabic">
+          إِنَّ ٱللَّهَ لَا يَغْفِرُ أَن يُشْرَكَ بِهِۦ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَن يَشَآءُ ۚ وَمَن يُشْرِكْ بِٱللَّهِ فَقَدِ ٱفْتَرَىٰٓ إِثْمًا عَظِيمًا
+        </div>
+        <div class="quran-translation">
+          Sesungguhnya Allah tidak mengampuni dosa syirik, dan Dia mengampuni dosa selain daripada itu bagi siapa yang dikehendaki-Nya.
+        </div>
+        <div class="quran-ref">Surah al-Nisa: 4:48</div>
+      </div>
+
+      <p><strong>Isu-isu berkaitan aliran Khawarij (Abdul Hadi Awang, 2024, 107-109):</strong></p>
+      
+      <div class="warning-box">
+        <div class="warning-title">1. Mengkafirkan Pelaku Dosa Besar</div>
+        <p>Khawarij terkenal dengan sikap mereka yang cepat mengkafirkan orang Islam yang melakukan dosa besar, walaupun dosa itu tidak mengeluarkan seseorang daripada Islam.</p>
+      </div>
+
+      <p><strong>Ciri-ciri utama Khawarij:</strong></p>
+      <ul>
+        <li>Kelompok takfiri yang mengkafirkan orang Islam lain hanya kerana melakukan dosa kecil atau dosa besar</li>
+        <li>Sikap ekstremis dan radikal</li>
+        <li>Menolak kepemimpinan yang tidak sesuai dengan pandangan mereka</li>
+        <li>Percaya bahawa hanya mereka sahaja yang benar</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Qadariah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="sect-box">
+        <div class="sect-title">Qadariah diasaskan oleh Ma'bad al-Juhani dan Ghaylan al-Dimashqi</div>
+        <p>Qadariah adalah kelompok yang menafikan qadar (takdir). Mereka percaya manusia mempunyai kuasa mutlak untuk melakukan apa sahaja, dan Allah tidak campur tangan dalam perbuatan manusia.</p>
+      </div>
+
+      <div class="quran-box">
+        <div class="quran-arabic">
+          إِنَّآ أَنزَلْنَـٰهُ فِى لَيْلَةِ ٱلْقَدْرِ ۩ وَمَآ أَدْرَىٰكَ مَا لَيْلَةُ ٱلْقَدْرِ ۩ لَيْلَةُ ٱلْقَدْرِ خَيْرٌۭ مِّنْ أَلْفِ شَهْرٍۢ ۩ تَنَزَّلُ ٱلْمَلَـٰٓئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍۢ ۩ سَلَـٰمٌ هِىَ حَتَّىٰ مَطْلَعِ ٱلْفَجْرِ
+        </div>
+        <div class="quran-translation">
+          Sesungguhnya Kami telah menurunkan (al-Quran) ini pada Malam Lailatul-Qadar (Malam Takdir), Dan apa jalannya engkau dapat mengetahui apa dia kebesaran Malam Lailatul-Qadar itu? Malam Lailatul-Qadar lebih baik daripada seribu bulan. Pada Malam itu, turun malaikat dan Jibril dengan izin Tuhan mereka, kerana membawa segala perkara (yang ditakdirkan berlakunya pada tahun yang berikut); Sejahteralah Malam (yang berkat) itu hingga terbit fajar!
+        </div>
+        <div class="quran-ref">Surah al-Qadar: 97:1-5</div>
+      </div>
+
+      <p><strong>Isu-isu berkaitan aliran Qadariah:</strong></p>
+      
+      <div class="info-box">
+        <div class="info-title">1. Penolakan Takdir Allah</div>
+        <p>Qadariah menafikan bahawa Allah menetapkan takdir bagi manusia. Mereka percaya bahawa manusia berkuasa penuh ke atas segala perbuatan mereka dan Allah tidak ada campur tangan dalam perbuatan manusia.</p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">2. Manusia Menguasai Nasib Mereka Sendiri</div>
+        <p>Mereka mengatakan bahawa manusia bertanggungjawab sepenuhnya atas apa yang berlaku, tanpa kebergantungan kepada ketetapan Allah.</p>
+      </div>
+
+      <div class="warning-box">
+        <div class="warning-title">Perbandingan dengan Ahl Sunnah</div>
+        <p><strong>Ahl Sunnah wa al-Jamaah:</strong> Percaya bahawa semua perkara berlaku dengan ketetapan dan takdir Allah, tetapi pada masa yang sama manusia diberi kebebasan untuk memilih jalan hidup mereka. Manusia mempunyai usaha, tetapi hasilnya adalah ketentuan Allah.</p>
+        <p><strong>Qadariah:</strong> Menafikan konsep takdir dan menyatakan bahawa manusia mempunyai kuasa mutlak atas perbuatan mereka sendiri. Ini menafikan konsep qadar yang menjadi asas akidah Islam.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Jabariah dan Jahmiyyah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="sect-box">
+        <div class="sect-title">Jabariah dan Jahmiyyah</div>
+        <p>Jahm bin Safwan (meninggal 746 M) merupakan pembawa aliran Jahmiyyah manakala Jabariah pula dimulai oleh Ja'ad bin Dirham yang mengutip teori-teori ini daripada Yahudi.</p>
+      </div>
+
+      <p><strong>Pegangan Jabariah dan Jahmiyyah:</strong></p>
+      <ul>
+        <li>Kedua-duanya percaya bahawa manusia tidak mempunyai kuasa atau kehendak</li>
+        <li>Semua perbuatan manusia adalah hasil ketentuan mutlak Allah tanpa pilihan</li>
+        <li>Mereka mengaskan bahawa manusia tidak dipertanggungjawabkan atas perbuatan mereka</li>
+        <li>Mensabitkan dosa kepada penentu dosa iaitu Allah SWT (Abdul Hadi Awang, 2024, 161-164)</li>
+      </ul>
+
+      <div class="warning-box">
+        <div class="warning-title">Ciri-ciri Khusus Jahmiyyah:</div>
+        <p>Dari sudut penamaan Jahmiyyah pula adalah penafian kepada segala sifat-sifat Allah. Mereka:</p>
+        <ul>
+          <li>Menafikan sifat-sifat Allah dan menganggap Allah tidak boleh disifatkan</li>
+          <li>Percaya yang bercanggah dengan apa yang al-Quran dan Hadith ajarkan</li>
+          <li>Menganggap amal tidak penting dalam menentukan iman</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Syiah</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="sect-box">
+        <div class="sect-title">Syiah menurut Imam Abu Hassan al-Ash'ari</div>
+        <p>Aliran Syiah ini merujuk kepada aliran yang menisbahkan diri mereka sebagai pengikut Sayidina Ali RA dan melebihkan beliau daripada para sahabat Nabi SAW (Abdul Hadi Awang, 2024, 153).</p>
+      </div>
+
+      <p><strong>Asal Usul Syiah:</strong></p>
+      <ul>
+        <li>Secara umum, mereka dikaitkan dengan Abdullah bin Saba', tetapi ada pelbagai versi mengenai asal usul Syiah</li>
+        <li>Syiah terbentuk selepas wafatnya Nabi Muhammad SAW</li>
+        <li>Mereka menuntut agar Saidina Ali RA dan keturunannya sahaja yang berhak memimpin umat Islam</li>
+        <li>Mereka menganggap para sahabat seperti Abu Bakar, Umar, dan Uthman telah mengambil hak kepimpinan yang sepatutnya milik Ali</li>
+      </ul>
+
+      <p><strong>Ciri-ciri utama Syiah:</strong></p>
+      <ul>
+        <li>Melebihkan Saidina Ali RA dan keturunannya (Ahlul Bait) melebihi para sahabat lain</li>
+        <li>Percaya kepada konsep Imamah (kepimpinan ilahi)</li>
+        <li>Mengamalkan taqiyyah (menyembunyikan kepercayaan sebenar)</li>
+        <li>Mempunyai pandangan tertentu tentang para sahabat yang bercanggah dengan Ahl Sunnah</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">
+      <h2>Sufi Batiniah atau Sufi Falsafi</h2>
+      <span>▼</span>
+    </div>
+    <div class="accordion-content">
+      <div class="sect-box">
+        <div class="sect-title">Sufi Batiniah atau Sufi Falsafi</div>
+        <p>Tidak ada pengasas tertentu kerana kelompok ini mempunyai ajaran dan fahaman yang berbeza-beza, tetapi mereka dikaitkan dengan fahaman batiniah yang mencampur-adukkan ajaran mistik dan kebatinan dengan Islam.</p>
+      </div>
+
+      <p><strong>Ciri-ciri Sufi Batiniah:</strong></p>
+      <ul>
+        <li>Sufi Batiniah merupakan golongan yang mendalami ilmu tasawuf tetapi dengan kefahaman yang menyeleweng</li>
+        <li>Mereka mempercayai bahawa ada makna-makna batin yang tersembunyi dalam al-Quran yang hanya boleh difahami oleh golongan tertentu, bukan semua orang</li>
+        <li>Antara pelopor aliran ini ialah al-Qadhi Nu'man bin Hayawan dari Syiah Ismailiyyah yang menyebabkan lahirnya aliran al-Qaramitah (Abdul Hadi Awang, 2024, 78-82)</li>
+      </ul>
+
+      <div class="warning-box">
+        <div class="warning-title">Kesesatan Sufi Batiniah:</div>
+        <ul>
+          <li>Mereka mengabaikan zahir syariat dan menekankan aspek batin yang penuh dengan unsur mistik</li>
+          <li>Sehingga keluar dari ajaran al-Sunnah</li>
+          <li>Ramai ulama yang menghukumi mereka sebagai kafir dan zindig serta terkeluar daripada agama</li>
+          <li>Kerana menggunakan taklifan syariat dan ia sangat bertentangan dengan akidah dan syariat Islam</li>
+        </ul>
+      </div>
+
+      <p><strong>Pengaruh Luar:</strong></p>
+      <ul>
+        <li>Mereka juga terpengaruh dengan ajaran-ajaran falsafah</li>
+        <li>Cenderung dengan fahaman Gnostik dan Neo-Platonisme</li>
+        <li>Seperti yang berlaku pada Batiniah dari kalangan Yahudi seperti pemuja ajaran Kabbalah</li>
+        <li>Nasrani seperti pelopornya Origen (254M)</li>
+        <li>Hindu dan agama-agama lain</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  ©️ 2025. Semua Hak Terpelihara. | Sumber: Nota Aqidah Ahl Sunnah Wal Jamaah
+</footer>
+
+<script>
+  // Sidebar toggle
+  const toggle = document.getElementById('toggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  toggle.onclick = ()=>{ sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+  overlay.onclick = ()=>{ sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+
+  // Accordion
+  document.querySelectorAll('.accordion').forEach(acc=>{
+    const header = acc.querySelector('.accordion-header');
+    header.addEventListener('click', ()=> {
+      acc.classList.toggle('active');
+      const span = header.querySelector('span');
+      span.textContent = acc.classList.contains('active') ? '▲' : '▼';
+    });
+  });
+
+  // Set first accordion as active by default
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.accordion').classList.add('active');
+    document.querySelector('.accordion .accordion-header span').textContent = '▲';
+  });
+</script>
+
+</body>
+</html>

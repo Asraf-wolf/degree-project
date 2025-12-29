@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qiblat Compass</title>
+<style>
+  /* Basic reset & styling */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+  body {
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    height:100vh; 
+    background: #fdf6e3; 
+    transition: background 0.3s, color 0.3s;
+    color: #333;
+  }
+  body.dark { background:#1a1a1a; color:#fdf6e3; }
+
+  .container {
+    text-align:center;
+  }
+
+  h1 { margin-bottom:10px; }
+  p { margin-bottom:20px; }
+
+  .compass {
+    position:relative;
+    width:250px;
+    height:250px;
+    border:6px solid #4CAF50;
+    border-radius:50%;
+    margin:0 auto 20px;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  body.dark .compass { background:#333; border-color:#4CAF50; }
+
+  .arrow {
+    width:6px;
+    height:100px;
+    background:#e53935;
+    position:absolute;
+    top:25px;
+    left:50%;
+    transform-origin: bottom center;
+    transform: rotate(0deg);
+    margin-left:-3px;
+    border-radius:3px;
+    transition: transform 0.3s ease;
+  }
+
+  .degree { font-size:1.2em; margin-bottom:10px; }
+  button {
+    padding:8px 15px;
+    margin:5px;
+    border:none;
+    background:#4CAF50;
+    color:#fff;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:1em;
+  }
+  button:hover { background:#45a049; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🕋 Qiblat Compass</h1>
+  <p>Face this direction to pray</p>
+  <div class="compass">
+    <div class="arrow" id="arrow"></div>
+  </div>
+  <div class="degree" id="degree">Qiblat: --°</div>
+  <button id="recalibrateBtn">Re-calibrate Compass</button>
+  <button id="toggleModeBtn">Dark / Light Mode</button>
+  <p id="message"></p>
+</div>
+
+<script>
+/* Kaaba coordinates */
+const kaabaLat = 21.4225 * Math.PI / 180; // radians
+const kaabaLon = 39.8262 * Math.PI / 180; // radians
+
+let userLat, userLon;
+let qiblatAngle = 0;
+const arrow = document.getElementById('arrow');
+const degreeDisplay = document.getElementById('degree');
+const message = document.getElementById('message');
+
+// Function to calculate Qiblat angle (bearing)
+function calculateQiblat(lat, lon) {
+    // Convert user coordinates to radians
+    const userLatRad = lat * Math.PI / 180;
+    const userLonRad = lon * Math.PI / 180;
+
+    /* 
+    Formula for initial bearing:
+    θ = atan2( sin(Δlong)*cos(lat2), cos(lat1)*sin(lat2) − sin(lat1)*cos(lat2)*cos(Δlong) )
+    Where lat1/lon1 = user location, lat2/lon2 = Kaaba
+    */
+    const deltaLon = kaabaLon - userLonRad;
+    const x = Math.sin(deltaLon) * Math.cos(kaabaLat);
+    const y = Math.cos(userLatRad)*Math.sin(kaabaLat) - Math.sin(userLatRad)*Math.cos(kaabaLat)*Math.cos(deltaLon);
+    let angle = Math.atan2(x, y) * 180 / Math.PI; // convert to degrees
+    angle = (angle + 360) % 360; // normalize
+    return angle;
+}
+
+// Update arrow rotation
+function updateCompassHeading(heading) {
+    const qiblatDirection = (qiblatAngle - heading + 360) % 360;
+    arrow.style.transform = `rotate(${qiblatDirection}deg)`;
+}
+
+// Get user location
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                userLat = pos.coords.latitude;
+                userLon = pos.coords.longitude;
+                qiblatAngle = calculateQiblat(userLat, userLon);
+                degreeDisplay.textContent = `Qiblat: ${Math.round(qiblatAngle)}°`;
+                message.textContent = '';
+            },
+            (err) => {
+                message.textContent = 'Location access denied. Cannot determine Qiblat.';
+            }
+        );
+    } else {
+        message.textContent = 'Geolocation is not supported by your browser.';
+    }
+}
+
+// Device orientation (compass)
+function setupCompass() {
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientationabsolute', (event) => {
+            let heading = event.alpha;
+            if (typeof event.webkitCompassHeading !== "undefined") {
+                heading = event.webkitCompassHeading; // iOS
+            }
+            if (heading != null) {
+                updateCompassHeading(heading);
+            }
+        }, true);
+    } else {
+        message.textContent += ' Device orientation not supported.';
+    }
+}
+
+// Recalibrate button
+document.getElementById('recalibrateBtn').addEventListener('click', () => {
+    getLocation();
+    message.textContent = 'Compass recalibrated!';
+});
+
+// Dark/light mode
+document.getElementById('toggleModeBtn').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+});
+
+// Initialize
+getLocation();
+setupCompass();
+</script>
+</body>
+</html>
